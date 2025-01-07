@@ -51,7 +51,7 @@ export const Auth = () => {
             <img
               src="/lovable-uploads/987b0f35-0fd8-408b-86be-57f31d51c2af.png"
               alt="Team Collaboration"
-              className="w-full rounded-lg shadow-asana-lg"
+              className="w-full rounded-lg shadow-custom-lg"
             />
             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-primary-100/90 to-transparent rounded-b-lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
@@ -87,8 +87,8 @@ export const Auth = () => {
                 variables: {
                   default: {
                     colors: {
-                      brand: '#796eff',
-                      brandAccent: '#5d4ff7',
+                      brand: '#9b87f5',
+                      brandAccent: '#7c3aed',
                       brandButtonText: 'white',
                       defaultButtonBackground: 'white',
                       defaultButtonBackgroundHover: '#f9fafb',
