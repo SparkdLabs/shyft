@@ -1,1 +1,7 @@
 project_id = "kwuwljwdflwmuccsvxoc"
+
+[functions.google-calendar-auth]
+verify_jwt = true
+
+[functions.outlook-calendar-auth]
+verify_jwt = true
