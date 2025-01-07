@@ -31,14 +31,13 @@ export const SidebarProvider = React.forwardRef<HTMLDivElement, SidebarProviderP
 
     const setOpen = React.useCallback(
       (value: boolean) => {
-        const openState = typeof value === "function" ? value(open) : value;
         if (setOpenProp) {
-          setOpenProp(openState);
+          setOpenProp(value);
         } else {
-          _setOpen(openState);
+          _setOpen(value);
         }
       },
-      [setOpenProp, open]
+      [setOpenProp]
     );
 
     const state: SidebarState = open ? "expanded" : "collapsed";
@@ -80,7 +79,7 @@ SidebarProvider.displayName = "SidebarProvider";
 
 export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
   ({ side = "left", variant = "sidebar", className, children, ...props }, ref) => {
-    const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
+    const { isMobile, openMobile, setOpenMobile } = useSidebar();
 
     if (isMobile) {
       return (
