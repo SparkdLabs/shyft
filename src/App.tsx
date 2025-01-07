@@ -11,6 +11,7 @@ import { CalendarPage } from "./components/calendar/CalendarPage";
 import { AchievementsPage } from "./components/achievements/AchievementsPage";
 import { SettingsPage } from "./components/settings/SettingsPage";
 import { Auth } from "./components/Auth";
+import { MarketingSite } from "./components/marketing/MarketingSite";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -44,48 +45,52 @@ const App = () => {
           <Routes>
             <Route
               path="/"
+              element={isAuthenticated ? <Navigate to="/dashboard" /> : <MarketingSite />}
+            />
+            <Route
+              path="/login"
               element={isAuthenticated ? <Navigate to="/dashboard" /> : <Auth />}
             />
             <Route
               path="/onboarding"
               element={
-                isAuthenticated ? <OnboardingFlow /> : <Navigate to="/" />
+                isAuthenticated ? <OnboardingFlow /> : <Navigate to="/login" />
               }
             />
             <Route
               path="/dashboard"
               element={
-                isAuthenticated ? <Dashboard /> : <Navigate to="/" />
+                isAuthenticated ? <Dashboard /> : <Navigate to="/login" />
               }
             />
             <Route
               path="/habits"
               element={
-                isAuthenticated ? <HabitsPage /> : <Navigate to="/" />
+                isAuthenticated ? <HabitsPage /> : <Navigate to="/login" />
               }
             />
             <Route
               path="/focus"
               element={
-                isAuthenticated ? <FocusTimerPage /> : <Navigate to="/" />
+                isAuthenticated ? <FocusTimerPage /> : <Navigate to="/login" />
               }
             />
             <Route
               path="/calendar"
               element={
-                isAuthenticated ? <CalendarPage /> : <Navigate to="/" />
+                isAuthenticated ? <CalendarPage /> : <Navigate to="/login" />
               }
             />
             <Route
               path="/achievements"
               element={
-                isAuthenticated ? <AchievementsPage /> : <Navigate to="/" />
+                isAuthenticated ? <AchievementsPage /> : <Navigate to="/login" />
               }
             />
             <Route
               path="/settings"
               element={
-                isAuthenticated ? <SettingsPage /> : <Navigate to="/" />
+                isAuthenticated ? <SettingsPage /> : <Navigate to="/login" />
               }
             />
             <Route path="*" element={<Navigate to="/" replace />} />
