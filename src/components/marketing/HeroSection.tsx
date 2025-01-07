@@ -6,7 +6,7 @@ export const HeroSection = () => {
   return (
     <section className="min-h-[90vh] flex items-center pt-24 sm:pt-32 pb-16 sm:pb-24 px-4 bg-gradient-to-b from-white to-primary/5">
       <div className="max-w-7xl mx-auto text-center">
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold mb-6 sm:mb-8 animate-fadeIn">
+        <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 sm:mb-8 animate-fadeIn leading-tight">
           Transform Your Habits,{" "}
           <span className="text-primary">
             Transform Your Life
