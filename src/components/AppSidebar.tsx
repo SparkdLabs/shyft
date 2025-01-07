@@ -58,7 +58,7 @@ export function AppSidebar() {
   const isMobile = useIsMobile();
 
   return (
-    <Sidebar defaultCollapsed={isMobile}>
+    <Sidebar>
       <SidebarHeader className="p-4 md:p-6 border-b border-primary/10">
         <div className="flex items-center gap-3">
           <SidebarTrigger>
@@ -93,4 +93,4 @@ export function AppSidebar() {
       </SidebarContent>
     </Sidebar>
   );
-};
+}

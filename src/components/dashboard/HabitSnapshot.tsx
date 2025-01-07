@@ -3,21 +3,23 @@ import { Card } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Habit, HabitCompletion } from "@/types/habits";
+import { cn } from "@/lib/utils";
 
 interface HabitSnapshotProps {
   habits: Habit[];
   completions: HabitCompletion[];
   habitsLoading: boolean;
+  className?: string;
 }
 
-export const HabitSnapshot = ({ habits, completions, habitsLoading }: HabitSnapshotProps) => {
+export const HabitSnapshot = ({ habits, completions, habitsLoading, className }: HabitSnapshotProps) => {
   const navigate = useNavigate();
   const habitSnapshot = habits.slice(0, 3);
   const completedToday = completions.length;
   const totalHabits = habits.length;
 
   return (
-    <Card className="p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200 md:col-span-2">
+    <Card className={cn("p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200", className)}>
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-primary">Today's Habits</h2>
