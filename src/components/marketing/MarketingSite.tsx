@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Award, Clock, BarChart, Target, CheckCircle, ArrowRight } from "lucide-react";
 
 export const MarketingSite = () => {
   return (
@@ -40,10 +41,44 @@ export const MarketingSite = () => {
         </div>
       </section>
 
+      {/* Product Screenshot Section */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold mb-6">Track Your Progress with Beautiful Analytics</h2>
+              <p className="text-lg text-muted-foreground mb-6">
+                Get detailed insights into your habit formation and productivity patterns with our intuitive dashboard.
+              </p>
+              <ul className="space-y-4">
+                {[
+                  "Visual progress tracking",
+                  "Daily, weekly, and monthly views",
+                  "Custom goal setting",
+                  "Achievement system"
+                ].map((feature, index) => (
+                  <li key={index} className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-lg shadow-xl overflow-hidden">
+              <img
+                src="/dashboard-screenshot.png"
+                alt="Shyft Dashboard"
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Choose Shyft?</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Powerful Features to Drive Success</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div
@@ -60,21 +95,85 @@ export const MarketingSite = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 px-4 bg-primary text-white">
+      {/* Focus Timer Screenshot */}
+      <section className="py-16 px-4 bg-muted">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="rounded-lg shadow-xl overflow-hidden order-2 md:order-1">
+              <img
+                src="/focus-timer-screenshot.png"
+                alt="Focus Timer"
+                className="w-full h-auto"
+              />
+            </div>
+            <div className="order-1 md:order-2">
+              <h2 className="text-3xl font-bold mb-6">Stay Focused and Productive</h2>
+              <p className="text-lg text-muted-foreground mb-6">
+                Our customizable focus timer helps you maintain concentration and track your productive hours throughout the day.
+              </p>
+              <ul className="space-y-4">
+                {[
+                  "Customizable timer durations",
+                  "Break reminders",
+                  "Session statistics",
+                  "Daily focus goals"
+                ].map((feature, index) => (
+                  <li key={index} className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">What Our Users Say</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="p-6 bg-muted rounded-xl"
+              >
+                <p className="text-lg mb-4">{testimonial.quote}</p>
+                <div className="flex items-center gap-4">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <span className="text-xl font-bold text-primary">
+                      {testimonial.author[0]}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-semibold">{testimonial.author}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Life?</h2>
-          <p className="text-lg mb-8 opacity-90">
-            Join thousands of others who have already started their journey with Shyft.
+          <h2 className="text-3xl font-bold mb-4">Start Your Journey Today</h2>
+          <p className="text-xl text-muted-foreground mb-8">
+            Join thousands of professionals who are already transforming their habits with Shyft.
           </p>
-          <Button
-            size="lg"
-            variant="secondary"
-            asChild
-            className="bg-white text-primary hover:bg-white/90"
-          >
-            <Link to="/login">Get Started Now</Link>
-          </Button>
+          <div className="max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg">
+            <h3 className="text-2xl font-bold mb-2">Free Trial</h3>
+            <p className="text-4xl font-bold mb-4">$0</p>
+            <p className="text-muted-foreground mb-6">No credit card required</p>
+            <Button size="lg" className="w-full" asChild>
+              <Link to="/login">
+                Get Started <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -92,58 +191,34 @@ const features = [
   {
     title: "Habit Tracking",
     description: "Build and maintain positive habits with our intuitive tracking system.",
-    icon: (props: any) => (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        {...props}
-      >
-        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-        <path d="m9 12 2 2 4-4" />
-      </svg>
-    ),
+    icon: Award,
   },
   {
     title: "Focus Timer",
     description: "Boost productivity with our customizable Pomodoro-style focus timer.",
-    icon: (props: any) => (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        {...props}
-      >
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
-      </svg>
-    ),
+    icon: Clock,
   },
   {
     title: "Progress Insights",
     description: "Track your progress with detailed analytics and personalized insights.",
-    icon: (props: any) => (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        {...props}
-      >
-        <path d="M3 3v18h18" />
-        <path d="m19 9-5 5-4-4-3 3" />
-      </svg>
-    ),
+    icon: BarChart,
   },
+];
+
+const testimonials = [
+  {
+    quote: "Shyft has completely transformed how I approach my daily tasks and goals. The habit tracking feature is a game-changer.",
+    author: "Sarah Chen",
+    role: "Product Manager"
+  },
+  {
+    quote: "The focus timer has helped me maintain deep work sessions and significantly improved my productivity.",
+    author: "Michael Rodriguez",
+    role: "Software Engineer"
+  },
+  {
+    quote: "I love how the app helps me build better habits while tracking my progress. It's become an essential part of my daily routine.",
+    author: "Emily Thompson",
+    role: "Marketing Director"
+  }
 ];
