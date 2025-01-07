@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 import { FocusTimer } from "./FocusTimer";
 import { useHabits } from "@/hooks/useHabits";
 import { ProgressCard } from "./habits/ProgressCard";
-import { AchievementCard } from "./achievements/AchievementCard";
 import { DashboardHeader } from "./dashboard/DashboardHeader";
 import { HabitSnapshot } from "./dashboard/HabitSnapshot";
 import { DashboardLayout } from "./dashboard/DashboardLayout";
@@ -25,10 +24,6 @@ export const Dashboard = () => {
 
         <Card className="p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200">
           <ProgressCard />
-        </Card>
-
-        <Card className="p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200 md:col-span-3">
-          <AchievementCard />
         </Card>
       </div>
 
