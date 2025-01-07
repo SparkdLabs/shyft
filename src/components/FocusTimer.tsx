@@ -8,7 +8,7 @@ interface FocusTimerProps {
 }
 
 export const FocusTimer = ({ onClose }: FocusTimerProps) => {
-  const [timeLeft, setTimeLeft] = useState(25 * 60); // 25 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(25 * 60);
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
@@ -38,20 +38,20 @@ export const FocusTimer = ({ onClose }: FocusTimerProps) => {
   };
 
   return (
-    <Card className="fixed inset-0 md:inset-auto md:fixed md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-96 bg-white p-6 rounded-lg shadow-lg animate-fadeIn">
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-xl font-semibold text-primary">Focus Timer</h2>
-        <Button variant="ghost" size="icon" onClick={onClose}>
+    <Card className="fixed inset-0 md:inset-auto md:fixed md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-96 bg-white p-4 md:p-6 rounded-none md:rounded-lg shadow-lg animate-fadeIn">
+      <div className="flex justify-between items-center mb-6 md:mb-8">
+        <h2 className="text-lg md:text-xl font-semibold text-primary">Focus Timer</h2>
+        <Button variant="ghost" size="icon" onClick={onClose} className="hover:bg-muted">
           <X className="h-4 w-4" />
         </Button>
       </div>
 
-      <div className="text-center space-y-8">
-        <div className="text-6xl font-bold text-primary">{formatTime(timeLeft)}</div>
+      <div className="text-center space-y-6 md:space-y-8">
+        <div className="text-4xl md:text-6xl font-bold text-primary">{formatTime(timeLeft)}</div>
         <div className="flex justify-center space-x-4">
           <Button
             onClick={toggleTimer}
-            className="bg-primary hover:bg-primary/90 w-32"
+            className="bg-primary hover:bg-primary/90 w-28 md:w-32"
           >
             {isActive ? (
               <>
