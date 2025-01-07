@@ -27,7 +27,7 @@ export const HabitWizard = ({ onClose }: HabitWizardProps) => {
   const [habitData, setHabitData] = useState({
     name: "",
     description: "",
-    frequency: "daily",
+    period: "daily" as "daily" | "weekly" | "monthly",
   });
   const { createHabit } = useHabits();
 
@@ -45,7 +45,10 @@ export const HabitWizard = ({ onClose }: HabitWizardProps) => {
 
   const handleCreate = async () => {
     try {
-      await createHabit.mutateAsync(habitData.name);
+      await createHabit.mutateAsync({
+        name: habitData.name,
+        period: habitData.period
+      });
       toast.success("Habit created successfully!");
       onClose();
     } catch (error) {
@@ -85,9 +88,9 @@ export const HabitWizard = ({ onClose }: HabitWizardProps) => {
                   How often would you like to do this?
                 </label>
                 <Select
-                  value={habitData.frequency}
-                  onValueChange={(value) =>
-                    setHabitData({ ...habitData, frequency: value })
+                  value={habitData.period}
+                  onValueChange={(value: "daily" | "weekly" | "monthly") =>
+                    setHabitData({ ...habitData, period: value })
                   }
                 >
                   <SelectTrigger>
