@@ -43,10 +43,7 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route
-              path="/"
-              element={isAuthenticated ? <Navigate to="/dashboard" /> : <MarketingSite />}
-            />
+            <Route path="/" element={<MarketingSite />} />
             <Route
               path="/login"
               element={isAuthenticated ? <Navigate to="/dashboard" /> : <Auth />}
