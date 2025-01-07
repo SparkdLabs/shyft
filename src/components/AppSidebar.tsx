@@ -32,7 +32,7 @@ const menuItems = [
   {
     title: "Focus Timer",
     icon: Timer,
-    url: "/timer",
+    url: "/focus",
   },
   {
     title: "Calendar",
