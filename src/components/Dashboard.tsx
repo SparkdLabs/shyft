@@ -10,7 +10,6 @@ import { ProgressCard } from "./habits/ProgressCard";
 import { SidebarProvider } from "./ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { AchievementCard } from "./achievements/AchievementCard";
-import { PersonalizedRecommendations } from "./habits/PersonalizedRecommendations";
 
 export const Dashboard = () => {
   const [showTimer, setShowTimer] = useState(false);
@@ -61,10 +60,6 @@ export const Dashboard = () => {
 
               <Card className="p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200">
                 <ProgressCard />
-              </Card>
-
-              <Card className="p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200 md:col-span-2">
-                <PersonalizedRecommendations />
               </Card>
 
               <Card className="p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200 md:col-span-3">
