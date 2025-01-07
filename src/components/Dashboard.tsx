@@ -9,6 +9,7 @@ import { HabitList } from "./habits/HabitList";
 import { ProgressCard } from "./habits/ProgressCard";
 import { SidebarProvider } from "./ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
+import { AchievementCard } from "./achievements/AchievementCard";
 
 export const Dashboard = () => {
   const [showTimer, setShowTimer] = useState(false);
@@ -52,13 +53,17 @@ export const Dashboard = () => {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card className="p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200">
+            <div className="grid md:grid-cols-3 gap-8">
+              <Card className="p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200 md:col-span-2">
                 <HabitList />
               </Card>
 
               <Card className="p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200">
                 <ProgressCard />
+              </Card>
+
+              <Card className="p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200 md:col-span-3">
+                <AchievementCard />
               </Card>
             </div>
 

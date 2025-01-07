@@ -9,6 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      achievements: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          name: string
+          points: number
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description: string
+          id?: string
+          name: string
+          points?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          name?: string
+          points?: number
+        }
+        Relationships: []
+      }
       habit_completions: {
         Row: {
           completed_at: string
@@ -94,6 +121,35 @@ export type Database = {
           username?: string | null
         }
         Relationships: []
+      }
+      user_achievements: {
+        Row: {
+          achievement_id: string | null
+          id: string
+          unlocked_at: string
+          user_id: string | null
+        }
+        Insert: {
+          achievement_id?: string | null
+          id?: string
+          unlocked_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          achievement_id?: string | null
+          id?: string
+          unlocked_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_achievements_achievement_id_fkey"
+            columns: ["achievement_id"]
+            isOneToOne: false
+            referencedRelation: "achievements"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_preferences: {
         Row: {
