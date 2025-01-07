@@ -57,7 +57,7 @@ export const PersonalizedRecommendations = () => {
         .from("user_preferences")
         .select("*")
         .eq("id", user.id)
-        .single();
+        .maybeSingle();  // Changed from .single() to .maybeSingle()
 
       if (error) throw error;
       return data;

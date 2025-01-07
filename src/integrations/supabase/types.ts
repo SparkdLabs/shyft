@@ -71,29 +71,49 @@ export type Database = {
           description: string | null
           frequency: string
           id: string
+          is_template: boolean | null
           name: string
+          parent_habit_id: string | null
+          suggested_frequency: string | null
+          template_category: string | null
           updated_at: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           description?: string | null
           frequency?: string
           id?: string
+          is_template?: boolean | null
           name: string
+          parent_habit_id?: string | null
+          suggested_frequency?: string | null
+          template_category?: string | null
           updated_at?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           description?: string | null
           frequency?: string
           id?: string
+          is_template?: boolean | null
           name?: string
+          parent_habit_id?: string | null
+          suggested_frequency?: string | null
+          template_category?: string | null
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "habits_parent_habit_id_fkey"
+            columns: ["parent_habit_id"]
+            isOneToOne: false
+            referencedRelation: "habits"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
