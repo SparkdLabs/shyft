@@ -1,10 +1,12 @@
 import { VariantProps } from "class-variance-authority";
 import { ReactNode } from "react";
-import type { TooltipContentProps } from "@radix-ui/react-tooltip";
+import { TooltipContentProps } from "@radix-ui/react-tooltip";
 import { sidebarMenuButtonVariants } from "./variants";
 
+export type SidebarState = "expanded" | "collapsed";
+
 export type SidebarContext = {
-  state: "expanded" | "collapsed";
+  state: SidebarState;
   open: boolean;
   setOpen: (open: boolean) => void;
   openMobile: boolean;

@@ -2,7 +2,6 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import {
   Tooltip,
@@ -15,7 +14,8 @@ import { sidebarMenuButtonVariants } from "./variants";
 import type { 
   SidebarProviderProps, 
   SidebarProps, 
-  SidebarMenuButtonProps 
+  SidebarMenuButtonProps,
+  SidebarState
 } from "./types";
 
 const SIDEBAR_WIDTH = "16rem";
@@ -41,7 +41,7 @@ export const SidebarProvider = React.forwardRef<HTMLDivElement, SidebarProviderP
       [setOpenProp, open]
     );
 
-    const state = open ? "expanded" : "collapsed";
+    const state: SidebarState = open ? "expanded" : "collapsed";
 
     const contextValue = React.useMemo(
       () => ({
