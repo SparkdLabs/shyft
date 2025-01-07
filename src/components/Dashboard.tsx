@@ -24,35 +24,40 @@ export const Dashboard = () => {
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
         <AppSidebar />
-        <div className="flex-1 bg-gradient-to-b from-blue-50 to-white p-4 md:p-8">
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className="flex justify-between items-center">
-              <h1 className="text-3xl font-semibold text-primary">Welcome Back</h1>
-              <div className="flex gap-2">
+        <div className="flex-1 bg-gradient-to-b from-muted to-white p-4 md:p-8">
+          <div className="max-w-6xl mx-auto space-y-8">
+            <div className="flex justify-between items-center bg-white rounded-xl p-6 shadow-sm">
+              <div>
+                <h1 className="text-4xl font-bold text-primary mb-2">Welcome Back</h1>
+                <p className="text-muted-foreground">Track your progress and build better habits</p>
+              </div>
+              <div className="flex gap-3">
                 <Button
                   onClick={() => setShowTimer(true)}
-                  className="bg-accent hover:bg-accent/90"
+                  className="bg-secondary hover:bg-secondary/90"
+                  size="lg"
                 >
-                  <Timer className="mr-2 h-4 w-4" />
+                  <Timer className="mr-2 h-5 w-5" />
                   Start Focus Session
                 </Button>
                 <Button
                   variant="outline"
                   onClick={handleSignOut}
-                  className="text-gray-600"
+                  className="text-primary border-primary/20 hover:bg-primary/5"
+                  size="lg"
                 >
-                  <LogOut className="mr-2 h-4 w-4" />
+                  <LogOut className="mr-2 h-5 w-5" />
                   Sign Out
                 </Button>
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="p-6">
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card className="p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200">
                 <HabitList />
               </Card>
 
-              <Card className="p-6">
+              <Card className="p-6 shadow-sm border-0 hover:shadow-md transition-shadow duration-200">
                 <ProgressCard />
               </Card>
             </div>
