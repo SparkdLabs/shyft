@@ -5,6 +5,9 @@ import { HeroSection } from "./HeroSection";
 import { FeatureSection } from "./FeatureSection";
 import { ProductShowcase } from "./ProductShowcase";
 import { TestimonialsSection } from "./TestimonialsSection";
+import { ComparisonSection } from "./ComparisonSection";
+import { BenefitsSection } from "./BenefitsSection";
+import { StatisticsSection } from "./StatisticsSection";
 
 export const MarketingSite = () => {
   return (
@@ -14,9 +17,7 @@ export const MarketingSite = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-primary">
-                Shyft
-              </span>
+              <span className="text-2xl font-bold text-primary">Shyft</span>
             </div>
             <div className="flex gap-4">
               <Button variant="ghost" asChild>
@@ -31,7 +32,10 @@ export const MarketingSite = () => {
       </nav>
 
       <HeroSection />
+      <StatisticsSection />
+      <BenefitsSection />
       <ProductShowcase />
+      <ComparisonSection />
       <FeatureSection />
       <TestimonialsSection />
 
