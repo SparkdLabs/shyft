@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { OnboardingFlow } from "./components/OnboardingFlow";
 import { Dashboard } from "./components/Dashboard";
 import { HabitsPage } from "./components/habits/HabitsPage";
+import { FocusTimerPage } from "./components/focus/FocusTimerPage";
 import { Auth } from "./components/Auth";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -58,6 +59,12 @@ const App = () => {
               path="/habits"
               element={
                 isAuthenticated ? <HabitsPage /> : <Navigate to="/" />
+              }
+            />
+            <Route
+              path="/focus"
+              element={
+                isAuthenticated ? <FocusTimerPage /> : <Navigate to="/" />
               }
             />
             <Route path="*" element={<Navigate to="/" replace />} />
