@@ -3,6 +3,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import type { Habit, HabitCompletion } from "@/types/habits";
 
+interface CreateHabitParams {
+  name: string;
+  period?: "daily" | "weekly" | "monthly";
+  goalTarget?: number;
+  goalMetric?: string;
+}
+
 export const useHabits = () => {
   const queryClient = useQueryClient();
 
@@ -42,7 +49,7 @@ export const useHabits = () => {
   });
 
   const createHabit = useMutation({
-    mutationFn: async (name: string) => {
+    mutationFn: async ({ name, period = "daily", goalTarget, goalMetric }: CreateHabitParams) => {
       const { data: userData, error: userError } = await supabase.auth.getUser();
       if (userError) throw userError;
 
@@ -50,7 +57,10 @@ export const useHabits = () => {
         .from("habits")
         .insert({
           name,
-          frequency: "daily",
+          frequency: period,
+          goal_target: goalTarget,
+          goal_metric: goalMetric,
+          goal_period: period,
           user_id: userData.user.id,
         })
         .select()

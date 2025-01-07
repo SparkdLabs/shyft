@@ -130,6 +130,9 @@ export type Database = {
           created_at: string
           description: string | null
           frequency: string
+          goal_metric: string | null
+          goal_period: string | null
+          goal_target: number | null
           id: string
           is_template: boolean | null
           name: string
@@ -143,6 +146,9 @@ export type Database = {
           created_at?: string
           description?: string | null
           frequency?: string
+          goal_metric?: string | null
+          goal_period?: string | null
+          goal_target?: number | null
           id?: string
           is_template?: boolean | null
           name: string
@@ -156,6 +162,9 @@ export type Database = {
           created_at?: string
           description?: string | null
           frequency?: string
+          goal_metric?: string | null
+          goal_period?: string | null
+          goal_target?: number | null
           id?: string
           is_template?: boolean | null
           name?: string
