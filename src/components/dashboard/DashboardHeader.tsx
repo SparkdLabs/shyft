@@ -16,9 +16,9 @@ export const DashboardHeader = ({ onStartTimer }: DashboardHeaderProps) => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row md:justify-between md:items-center bg-white rounded-xl p-6 md:p-8 shadow-sm border border-[#edeae9] space-y-4 md:space-y-0">
+    <div className="flex flex-col md:flex-row md:justify-between md:items-center bg-white rounded-xl p-4 md:p-8 shadow-sm border border-[#edeae9] space-y-4 md:space-y-0 mt-14 md:mt-0">
       <div>
-        <h1 className="text-2xl md:text-3xl font-semibold text-[#151b26] mb-1">Welcome Back</h1>
+        <h1 className="text-xl md:text-3xl font-semibold text-[#151b26] mb-1">Welcome Back</h1>
         <p className="text-sm md:text-base text-[#6f7782]">Track your progress and build better habits</p>
       </div>
       <div className="flex flex-col md:flex-row gap-3">

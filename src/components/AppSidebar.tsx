@@ -5,6 +5,8 @@ import {
   Calendar,
   Trophy,
   Settings,
+  Menu,
+  X,
 } from "lucide-react";
 import {
   Sidebar,
@@ -13,7 +15,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const menuItems = [
@@ -52,36 +56,56 @@ const menuItems = [
 export function AppSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { open, setOpen, isMobile } = useSidebar();
 
   return (
-    <Sidebar>
-      <SidebarHeader className="p-4 md:p-6 border-b border-primary/10">
-        <div className="flex items-center gap-2">
-          <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            Shyft
-          </span>
-        </div>
-      </SidebarHeader>
-      <SidebarContent className="p-3 md:p-4">
-        <SidebarMenu>
-          {menuItems.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton
-                asChild
-                isActive={location.pathname === item.url}
-              >
-                <button
-                  onClick={() => navigate(item.url)}
-                  className="flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 rounded-lg text-primary/80 hover:text-secondary hover:bg-muted transition-colors w-full text-sm md:text-base"
+    <>
+      {/* Mobile Menu Toggle */}
+      {isMobile && (
+        <Button
+          variant="ghost"
+          size="icon"
+          className="fixed top-4 left-4 z-50 md:hidden"
+          onClick={() => setOpen(!open)}
+        >
+          {open ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
+        </Button>
+      )}
+
+      <Sidebar>
+        <SidebarHeader className="p-4 md:p-6 border-b border-primary/10">
+          <div className="flex items-center gap-2">
+            <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              Shyft
+            </span>
+          </div>
+        </SidebarHeader>
+        <SidebarContent className="p-3 md:p-4">
+          <SidebarMenu>
+            {menuItems.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={location.pathname === item.url}
+                  onClick={() => isMobile && setOpen(false)}
                 >
-                  <item.icon className="h-4 w-4 md:h-5 md:w-5" />
-                  <span className="font-medium">{item.title}</span>
-                </button>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarContent>
-    </Sidebar>
+                  <button
+                    onClick={() => navigate(item.url)}
+                    className="flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 rounded-lg text-primary/80 hover:text-secondary hover:bg-muted transition-colors w-full text-sm md:text-base"
+                  >
+                    <item.icon className="h-4 w-4 md:h-5 md:w-5" />
+                    <span className="font-medium">{item.title}</span>
+                  </button>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarContent>
+      </Sidebar>
+    </>
   );
 }
