@@ -7,7 +7,6 @@ import { ProductShowcase } from "./ProductShowcase";
 import { TestimonialsSection } from "./TestimonialsSection";
 import { ComparisonSection } from "./ComparisonSection";
 import { BenefitsSection } from "./BenefitsSection";
-import { StatisticsSection } from "./StatisticsSection";
 
 export const MarketingSite = () => {
   return (
@@ -32,7 +31,6 @@ export const MarketingSite = () => {
       </nav>
 
       <HeroSection />
-      <StatisticsSection />
       <BenefitsSection />
       <ProductShowcase />
       <ComparisonSection />
