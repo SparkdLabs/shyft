@@ -19,21 +19,56 @@ export function ProfileSettings() {
 
   useEffect(() => {
     async function loadProfile() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          toast.error('No user found');
+          return;
+        }
 
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('username, full_name')
-        .eq('id', user.id)
-        .single();
+        // Try to get the existing profile
+        const { data: profile, error } = await supabase
+          .from('profiles')
+          .select('username, full_name')
+          .eq('id', user.id)
+          .maybeSingle();
 
-      if (profile) {
+        if (error) {
+          console.error('Error fetching profile:', error);
+          toast.error('Failed to load profile');
+          return;
+        }
+
+        // If no profile exists, create one
+        if (!profile) {
+          const { error: insertError } = await supabase
+            .from('profiles')
+            .insert([{ id: user.id }]);
+
+          if (insertError) {
+            console.error('Error creating profile:', insertError);
+            toast.error('Failed to create profile');
+            return;
+          }
+
+          // Set empty values in the form
+          form.reset({
+            username: '',
+            fullName: '',
+            bio: '',
+          });
+          return;
+        }
+
+        // Set existing values in the form
         form.reset({
           username: profile.username || '',
           fullName: profile.full_name || '',
           bio: '',
         });
+      } catch (error) {
+        console.error('Error in loadProfile:', error);
+        toast.error('Failed to load profile');
       }
     }
 
@@ -43,7 +78,10 @@ export function ProfileSettings() {
   async function onSubmit(data: ProfileFormValues) {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('No user found');
+      if (!user) {
+        toast.error('No user found');
+        return;
+      }
 
       const { error } = await supabase
         .from('profiles')
@@ -57,8 +95,8 @@ export function ProfileSettings() {
 
       toast.success('Profile updated successfully');
     } catch (error) {
-      toast.error('Failed to update profile');
       console.error('Error updating profile:', error);
+      toast.error('Failed to update profile');
     }
   }
 
