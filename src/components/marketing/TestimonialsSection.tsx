@@ -25,9 +25,9 @@ export const TestimonialsSection = () => {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="p-6 bg-muted rounded-xl"
+              className="p-8 bg-muted rounded-xl hover:shadow-md transition-shadow duration-200"
             >
-              <p className="text-lg mb-4">{testimonial.quote}</p>
+              <p className="text-lg mb-6 text-gray-700">{testimonial.quote}</p>
               <div className="flex items-center gap-4">
                 <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
                   <span className="text-xl font-bold text-primary">
