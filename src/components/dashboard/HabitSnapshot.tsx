@@ -39,7 +39,7 @@ export const HabitSnapshot = ({ habits, completions, habitsLoading, className }:
           ) : habitSnapshot.length === 0 ? (
             <div className="text-center py-6">
               <p className="text-muted-foreground mb-4">No habits created yet</p>
-              <Button onClick={() => navigate('/habits')}>
+              <Button onClick={() => navigate('/habits')} className="bg-secondary hover:bg-secondary/90">
                 Create Your First Habit
               </Button>
             </div>
@@ -49,20 +49,28 @@ export const HabitSnapshot = ({ habits, completions, habitsLoading, className }:
                 <p className="text-sm text-muted-foreground">
                   {completedToday} of {totalHabits} habits completed today
                 </p>
+                <div className="w-full h-2 bg-muted rounded-full mt-2">
+                  <div 
+                    className="h-full bg-secondary rounded-full transition-all duration-500"
+                    style={{ 
+                      width: `${totalHabits > 0 ? (completedToday / totalHabits) * 100 : 0}%` 
+                    }}
+                  />
+                </div>
               </div>
               {habitSnapshot.map((habit) => (
                 <div
                   key={habit.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="flex items-center justify-between p-4 bg-muted/50 rounded-lg hover:bg-muted/80 transition-colors animate-fadeIn"
                 >
                   <span className="text-gray-700">{habit.name}</span>
                   <div className="flex items-center">
                     {completions.some(c => c.habit_id === habit.id) ? (
-                      <span className="text-sm text-primary font-medium">
+                      <span className="text-sm font-medium px-3 py-1 bg-secondary/20 text-secondary rounded-full">
                         Completed
                       </span>
                     ) : (
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-sm px-3 py-1 bg-muted text-muted-foreground rounded-full">
                         Pending
                       </span>
                     )}
