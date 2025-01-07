@@ -5,7 +5,6 @@
   text-align: center;
 }
 
-/* Asana-inspired styling */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -14,11 +13,11 @@
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 2em #796effaa);
+  filter: drop-shadow(0 0 2em #9b87f5aa);
 }
 
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #796effaa);
+  filter: drop-shadow(0 0 2em #9b87f5aa);
 }
 
 @keyframes logo-spin {
@@ -52,7 +51,7 @@
   color: #6B7177;
 }
 
-/* Asana-inspired button styles */
+/* Button styles */
 button {
   font-weight: 500;
   transition: all 0.2s ease;
@@ -71,18 +70,18 @@ input, select, textarea {
 }
 
 input:focus, select:focus, textarea:focus {
-  border-color: #796eff;
+  border-color: #9b87f5;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(121, 110, 255, 0.1);
+  box-shadow: 0 0 0 2px rgba(155, 135, 245, 0.1);
 }
 
 /* Links */
 a {
-  color: #796eff;
+  color: #9b87f5;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 a:hover {
-  color: #5d4ff7;
+  color: #7c3aed;
 }
