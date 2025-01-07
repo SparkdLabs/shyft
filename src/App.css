@@ -5,17 +5,20 @@
   text-align: center;
 }
 
+/* Asana-inspired styling */
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #796effaa);
 }
+
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em #796effaa);
 }
 
 @keyframes logo-spin {
@@ -35,8 +38,51 @@
 
 .card {
   padding: 2em;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .read-the-docs {
-  color: #888;
+  color: #6B7177;
+}
+
+/* Asana-inspired button styles */
+button {
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+/* Form elements */
+input, select, textarea {
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  transition: border-color 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #796eff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(121, 110, 255, 0.1);
+}
+
+/* Links */
+a {
+  color: #796eff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #5d4ff7;
 }

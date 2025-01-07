@@ -27,6 +27,16 @@ export default {
         primary: {
           DEFAULT: "#796eff",
           foreground: "#FFFFFF",
+          50: "#f6f8ff",
+          100: "#edf0ff",
+          200: "#dce1ff",
+          300: "#bdc4ff",
+          400: "#9b9fff",
+          500: "#796eff",
+          600: "#5d4ff7",
+          700: "#4939db",
+          800: "#3a2fb2",
+          900: "#322b8f",
         },
         secondary: {
           DEFAULT: "#7E69AB",
@@ -77,6 +87,11 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         fadeIn: "fadeIn 0.5s ease-out",
         slideUp: "slideUp 0.5s ease-out",
+      },
+      boxShadow: {
+        'asana': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)',
+        'asana-md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
+        'asana-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
       },
     },
   },
