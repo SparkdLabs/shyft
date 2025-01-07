@@ -36,6 +36,39 @@ export type Database = {
         }
         Relationships: []
       }
+      user_preferences: {
+        Row: {
+          career_goal: string | null
+          created_at: string
+          id: string
+          industry: string | null
+          main_challenge: string | null
+          onboarding_completed: boolean | null
+          role: string | null
+          updated_at: string
+        }
+        Insert: {
+          career_goal?: string | null
+          created_at?: string
+          id: string
+          industry?: string | null
+          main_challenge?: string | null
+          onboarding_completed?: boolean | null
+          role?: string | null
+          updated_at?: string
+        }
+        Update: {
+          career_goal?: string | null
+          created_at?: string
+          id?: string
+          industry?: string | null
+          main_challenge?: string | null
+          onboarding_completed?: boolean | null
+          role?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

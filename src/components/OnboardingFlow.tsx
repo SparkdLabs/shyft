@@ -30,7 +30,7 @@ export const OnboardingFlow = () => {
         <div className="space-y-6">
           {step === 1 && (
             <div className="space-y-4 animate-slideUp">
-              <h2 className="text-2xl font-semibold text-primary">Welcome to The Shift</h2>
+              <h2 className="text-2xl font-semibold text-primary">Welcome to Shyft</h2>
               <p className="text-gray-600">Let's start by learning about your current role.</p>
               <div className="space-y-4">
                 <div>
