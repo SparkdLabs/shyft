@@ -1,9 +1,10 @@
 import {
-  Calendar,
-  Home,
-  Settings,
+  LayoutDashboard,
   CheckCircle2,
   Timer,
+  Calendar,
+  Trophy,
+  Settings,
   Menu,
 } from "lucide-react";
 import {
@@ -15,11 +16,12 @@ import {
   SidebarMenuItem,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const menuItems = [
   {
     title: "Dashboard",
-    icon: Home,
+    icon: LayoutDashboard,
     url: "/dashboard",
   },
   {
@@ -28,7 +30,7 @@ const menuItems = [
     url: "/habits",
   },
   {
-    title: "Timer",
+    title: "Focus Timer",
     icon: Timer,
     url: "/timer",
   },
@@ -38,6 +40,11 @@ const menuItems = [
     url: "/calendar",
   },
   {
+    title: "Achievements",
+    icon: Trophy,
+    url: "/achievements",
+  },
+  {
     title: "Settings",
     icon: Settings,
     url: "/settings",
@@ -45,6 +52,9 @@ const menuItems = [
 ];
 
 export function AppSidebar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <Sidebar>
       <SidebarHeader className="p-6 border-b border-primary/10">
@@ -63,14 +73,17 @@ export function AppSidebar() {
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
-                <a 
-                  href={item.url} 
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-primary/80 hover:text-secondary hover:bg-muted transition-colors"
+              <SidebarMenuButton
+                asChild
+                isActive={location.pathname === item.url}
+              >
+                <button
+                  onClick={() => navigate(item.url)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-primary/80 hover:text-secondary hover:bg-muted transition-colors w-full"
                 >
                   <item.icon className="h-5 w-5" />
                   <span className="font-medium">{item.title}</span>
-                </a>
+                </button>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
