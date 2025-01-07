@@ -7,6 +7,7 @@ import { OnboardingFlow } from "./components/OnboardingFlow";
 import { Dashboard } from "./components/Dashboard";
 import { HabitsPage } from "./components/habits/HabitsPage";
 import { FocusTimerPage } from "./components/focus/FocusTimerPage";
+import { CalendarPage } from "./components/calendar/CalendarPage";
 import { Auth } from "./components/Auth";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -65,6 +66,12 @@ const App = () => {
               path="/focus"
               element={
                 isAuthenticated ? <FocusTimerPage /> : <Navigate to="/" />
+              }
+            />
+            <Route
+              path="/calendar"
+              element={
+                isAuthenticated ? <CalendarPage /> : <Navigate to="/" />
               }
             />
             <Route path="*" element={<Navigate to="/" replace />} />
