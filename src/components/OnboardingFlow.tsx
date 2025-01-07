@@ -1,26 +1,64 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useNavigate } from "react-router-dom";
+import { StepOne } from "./onboarding/StepOne";
+import { StepTwo } from "./onboarding/StepTwo";
+import { StepThree } from "./onboarding/StepThree";
+import { OnboardingFormData } from "@/types/onboarding";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
 
 export const OnboardingFlow = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<OnboardingFormData>({
     role: "",
     industry: "",
     goal: "promotion",
     challenge: "time",
   });
 
-  const handleNext = () => {
+  const handleUpdateFormData = (data: Partial<OnboardingFormData>) => {
+    setFormData((prev) => ({ ...prev, ...data }));
+  };
+
+  const handleNext = async () => {
     if (step < 3) {
       setStep(step + 1);
     } else {
-      navigate("/dashboard");
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error("No user found");
+
+        const { error } = await supabase
+          .from('user_preferences')
+          .upsert({
+            id: user.id,
+            role: formData.role,
+            industry: formData.industry,
+            career_goal: formData.goal,
+            main_challenge: formData.challenge,
+            onboarding_completed: true
+          });
+
+        if (error) throw error;
+
+        toast({
+          title: "Onboarding completed!",
+          description: "Your preferences have been saved.",
+        });
+
+        navigate("/dashboard");
+      } catch (error) {
+        console.error('Error saving onboarding data:', error);
+        toast({
+          title: "Error",
+          description: "Failed to save your preferences. Please try again.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -29,82 +67,15 @@ export const OnboardingFlow = () => {
       <Card className="w-full max-w-lg p-8 animate-fadeIn">
         <div className="space-y-6">
           {step === 1 && (
-            <div className="space-y-4 animate-slideUp">
-              <h2 className="text-2xl font-semibold text-primary">Welcome to Shyft</h2>
-              <p className="text-gray-600">Let's start by learning about your current role.</p>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="role">Current Role/Title</Label>
-                  <Input
-                    id="role"
-                    value={formData.role}
-                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                    placeholder="e.g. Product Manager"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="industry">Industry</Label>
-                  <Input
-                    id="industry"
-                    value={formData.industry}
-                    onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
-                    placeholder="e.g. Technology"
-                  />
-                </div>
-              </div>
-            </div>
+            <StepOne formData={formData} onChange={handleUpdateFormData} />
           )}
 
           {step === 2 && (
-            <div className="space-y-4 animate-slideUp">
-              <h2 className="text-2xl font-semibold text-primary">Career Goals</h2>
-              <p className="text-gray-600">What's your primary career goal?</p>
-              <RadioGroup
-                value={formData.goal}
-                onValueChange={(value) => setFormData({ ...formData, goal: value })}
-              >
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="promotion" id="promotion" />
-                    <Label htmlFor="promotion">Get a promotion</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="switch" id="switch" />
-                    <Label htmlFor="switch">Switch roles/careers</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="skills" id="skills" />
-                    <Label htmlFor="skills">Build new skills</Label>
-                  </div>
-                </div>
-              </RadioGroup>
-            </div>
+            <StepTwo formData={formData} onChange={handleUpdateFormData} />
           )}
 
           {step === 3 && (
-            <div className="space-y-4 animate-slideUp">
-              <h2 className="text-2xl font-semibold text-primary">Current Challenges</h2>
-              <p className="text-gray-600">What's your biggest challenge right now?</p>
-              <RadioGroup
-                value={formData.challenge}
-                onValueChange={(value) => setFormData({ ...formData, challenge: value })}
-              >
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="time" id="time" />
-                    <Label htmlFor="time">Time management</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="clarity" id="clarity" />
-                    <Label htmlFor="clarity">Lack of clarity/direction</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="network" id="network" />
-                    <Label htmlFor="network">Building my network</Label>
-                  </div>
-                </div>
-              </RadioGroup>
-            </div>
+            <StepThree formData={formData} onChange={handleUpdateFormData} />
           )}
 
           <div className="flex justify-end pt-6">
