@@ -43,14 +43,14 @@ export const Auth = () => {
       <div className="hidden lg:flex lg:w-1/2 relative bg-primary-50">
         <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
           <img 
-            src="/placeholder.svg" 
+            src="/lovable-uploads/ef538683-98ce-45d3-9690-cb27cdf529a9.png" 
             alt="Shyft Logo" 
             className="w-48 mb-8"
           />
           <div className="relative w-full max-w-2xl">
             <img
-              src="/placeholder.svg"
-              alt="Productivity Illustration"
+              src="/lovable-uploads/987b0f35-0fd8-408b-86be-57f31d51c2af.png"
+              alt="Team Collaboration"
               className="w-full rounded-lg shadow-asana-lg"
             />
             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-primary-100/90 to-transparent rounded-b-lg">
