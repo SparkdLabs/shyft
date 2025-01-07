@@ -6,6 +6,8 @@ import { TimerDisplay } from "./TimerDisplay";
 import { TimerControls } from "./TimerControls";
 import { TimerSettings } from "./TimerSettings";
 import { SessionProgress } from "./SessionProgress";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 
 type TimerMode = "focus" | "break";
 
@@ -101,38 +103,45 @@ export const FocusTimerPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl">
-      <div className="space-y-8">
-        <Card className="p-8 shadow-lg">
-          <div className="text-center space-y-6">
-            <h1 className="text-3xl font-bold text-primary">
-              {mode === "focus" ? "Focus Time" : "Break Time"}
-            </h1>
-            
-            <TimerDisplay 
-              timeLeft={timeLeft}
-              progress={progress}
-              formatTime={formatTime}
-            />
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full">
+        <AppSidebar />
+        <div className="flex-1 bg-gradient-to-b from-muted to-white p-4 md:p-8">
+          <div className="container mx-auto max-w-4xl">
+            <div className="space-y-8">
+              <Card className="p-8 shadow-lg">
+                <div className="text-center space-y-6">
+                  <h1 className="text-3xl font-bold text-primary">
+                    {mode === "focus" ? "Focus Time" : "Break Time"}
+                  </h1>
+                  
+                  <TimerDisplay 
+                    timeLeft={timeLeft}
+                    progress={progress}
+                    formatTime={formatTime}
+                  />
 
-            <TimerControls 
-              isActive={isActive}
-              onToggle={toggleTimer}
-              onReset={resetTimer}
-            />
+                  <TimerControls 
+                    isActive={isActive}
+                    onToggle={toggleTimer}
+                    onReset={resetTimer}
+                  />
 
-            <TimerSettings 
-              focusDuration={focusDuration}
-              breakDuration={breakDuration}
-              isActive={isActive}
-              onFocusDurationChange={(value) => updateDuration(value, "focus")}
-              onBreakDurationChange={(value) => updateDuration(value, "break")}
-            />
+                  <TimerSettings 
+                    focusDuration={focusDuration}
+                    breakDuration={breakDuration}
+                    isActive={isActive}
+                    onFocusDurationChange={(value) => updateDuration(value, "focus")}
+                    onBreakDurationChange={(value) => updateDuration(value, "break")}
+                  />
+                </div>
+              </Card>
+
+              <SessionProgress sessionsCompleted={sessionsCompleted} />
+            </div>
           </div>
-        </Card>
-
-        <SessionProgress sessionsCompleted={sessionsCompleted} />
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
