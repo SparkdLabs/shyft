@@ -55,14 +55,16 @@ export const Dashboard = () => {
   // Create new habit
   const createHabit = useMutation({
     mutationFn: async (name: string) => {
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError) throw userError;
+
       const { data, error } = await supabase
         .from("habits")
-        .insert([
-          {
-            name,
-            frequency: "daily",
-          },
-        ])
+        .insert({
+          name,
+          frequency: "daily",
+          user_id: userData.user.id,
+        })
         .select()
         .single();
 
@@ -82,6 +84,9 @@ export const Dashboard = () => {
   // Toggle habit completion
   const toggleHabit = useMutation({
     mutationFn: async (habitId: string) => {
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError) throw userError;
+
       const isCompleted = completions.some(c => c.habit_id === habitId);
       
       if (isCompleted) {
@@ -93,7 +98,10 @@ export const Dashboard = () => {
       } else {
         const { error } = await supabase
           .from("habit_completions")
-          .insert([{ habit_id: habitId }]);
+          .insert({
+            habit_id: habitId,
+            user_id: userData.user.id,
+          });
         if (error) throw error;
       }
     },
