@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/card";
 import { Plus, Briefcase, Brain } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -47,7 +47,7 @@ const HABIT_TEMPLATES = {
 };
 
 export const PersonalizedRecommendations = () => {
-  const { data: preferences, isLoading } = useQuery({
+  const { data: preferences, isLoading, error } = useQuery({
     queryKey: ["user-preferences"],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -57,10 +57,10 @@ export const PersonalizedRecommendations = () => {
         .from("user_preferences")
         .select("*")
         .eq("id", user.id)
-        .maybeSingle();  // Changed from .single() to .maybeSingle()
+        .maybeSingle();
 
       if (error) throw error;
-      return data;
+      return data || { career_goal: 'default', industry: 'default' }; // Provide default values if no preferences exist
     }
   });
 
@@ -86,6 +86,11 @@ export const PersonalizedRecommendations = () => {
 
   if (isLoading) {
     return <div className="text-muted-foreground">Loading recommendations...</div>;
+  }
+
+  if (error) {
+    console.error("Error fetching preferences:", error);
+    return <div className="text-muted-foreground">Unable to load recommendations. Please try again later.</div>;
   }
 
   const getRecommendedHabits = () => {
