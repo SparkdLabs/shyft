@@ -13,17 +13,17 @@ export const MarketingSite = () => {
     <div className="min-h-screen bg-white">
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-sm z-50 border-b">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-between items-center h-16">
+        <div className="max-w-7xl mx-auto px-4 w-full">
+          <div className="flex justify-between items-center h-16 max-w-full overflow-x-hidden">
             <div className="flex items-center gap-2">
               <span className="text-xl font-bold text-primary">Shyft</span>
             </div>
-            <div className="flex gap-2 sm:gap-4">
-              <Button variant="ghost" size="sm" className="text-sm sm:text-base" asChild>
+            <div className="flex gap-2">
+              <Button variant="ghost" size="sm" className="text-sm whitespace-nowrap" asChild>
                 <Link to="/login">Log In</Link>
               </Button>
               <Button 
-                className="bg-primary hover:bg-primary/90 text-sm sm:text-base" 
+                className="bg-primary hover:bg-primary/90 text-sm whitespace-nowrap" 
                 size="sm" 
                 asChild
               >
