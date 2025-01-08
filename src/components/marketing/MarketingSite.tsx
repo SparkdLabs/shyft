@@ -10,20 +10,20 @@ import { BenefitsSection } from "./BenefitsSection";
 
 export const MarketingSite = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-sm z-50 border-b">
-        <div className="max-w-7xl mx-auto px-4 w-full">
-          <div className="flex justify-between items-center h-16 max-w-full overflow-x-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
+          <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
               <span className="text-xl font-bold text-primary">Shyft</span>
             </div>
-            <div className="flex gap-2">
-              <Button variant="ghost" size="sm" className="text-sm whitespace-nowrap" asChild>
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="sm" className="text-sm" asChild>
                 <Link to="/login">Log In</Link>
               </Button>
               <Button 
-                className="bg-primary hover:bg-primary/90 text-sm whitespace-nowrap" 
+                className="bg-primary hover:bg-primary/90 text-sm" 
                 size="sm" 
                 asChild
               >
