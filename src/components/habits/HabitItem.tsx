@@ -1,9 +1,9 @@
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, ChevronDown, ChevronRight, Plus, Trash2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import type { Habit, HabitCompletion } from "@/types/habits";
-import { useEffect, useRef, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,7 +27,7 @@ interface HabitItemProps {
   progress: number;
 }
 
-export const HabitItem = ({
+export const HabitItem: React.FC<HabitItemProps> = ({
   habit,
   isExpanded,
   completions,
@@ -37,7 +37,7 @@ export const HabitItem = ({
   onToggleComplete,
   onDelete,
   progress,
-}: HabitItemProps) => {
+}) => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [swiping, setSwiping] = useState(false);
