@@ -12,11 +12,11 @@ export const HabitsPage = () => {
   return (
     <DashboardLayout>
       <div className="space-y-6 md:space-y-8 pb-20 md:pb-0">
-        <div className="px-4 md:px-0 mt-14 md:mt-0"> {/* Added margin-top for mobile */}
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-primary">
+        <div className="px-4 md:px-0 mt-4 md:mt-0"> {/* Adjusted top margin */}
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-primary mb-2">
             Habits
           </h1>
-          <p className="text-sm md:text-base text-muted-foreground mt-1">
+          <p className="text-sm md:text-base text-muted-foreground">
             Create and track your daily habits to achieve your goals.
           </p>
         </div>
