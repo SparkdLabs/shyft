@@ -1,22 +1,38 @@
-import { ReactNode } from "react";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/AppSidebar";
+import { Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { DashboardHeader } from "./DashboardHeader";
+import { AppSidebar } from "../AppSidebar";
+import { useState } from "react";
 
 interface DashboardLayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <SidebarProvider defaultOpen={false}>
-      <div className="flex min-h-[100dvh] w-full">
-        <AppSidebar />
-        <div className="flex-1 bg-gradient-to-br from-[#f6f8f9] via-white to-[#f6f8f9] p-3 md:p-8 overflow-x-hidden">
-          <div className="max-w-6xl mx-auto space-y-4 md:space-y-8 animate-fadeIn safe-area-inset-bottom pb-safe">
-            {children}
+    <div className="min-h-screen bg-background">
+      <div className="flex h-full">
+        <AppSidebar open={sidebarOpen} onOpenChange={setSidebarOpen} />
+        
+        <div className="flex-1">
+          <div className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="container flex h-14 items-center justify-between px-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSidebarOpen(true)}
+                className="md:hidden bg-primary rounded-full hover:bg-primary/90"
+              >
+                <Menu className="h-5 w-5 text-white" />
+              </Button>
+              <DashboardHeader />
+            </div>
           </div>
+          <main className="container">{children}</main>
         </div>
       </div>
-    </SidebarProvider>
+    </div>
   );
 };

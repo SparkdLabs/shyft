@@ -12,7 +12,7 @@ export const HabitsPage = () => {
   return (
     <DashboardLayout>
       <div className="space-y-6 md:space-y-8 pb-20 md:pb-0">
-        <div className="px-4 md:px-0 mt-8 md:mt-0"> {/* Increased top margin from mt-4 to mt-8 */}
+        <div className="px-4 md:px-0 mt-12 md:mt-0"> {/* Increased top margin from mt-8 to mt-12 */}
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-primary mb-2">
             Habits
           </h1>
