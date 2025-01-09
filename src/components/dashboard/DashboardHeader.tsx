@@ -2,16 +2,41 @@ import { Button } from "@/components/ui/button";
 import { Timer, LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 interface DashboardHeaderProps {
   onStartTimer: () => void;
 }
 
 export const DashboardHeader = ({ onStartTimer }: DashboardHeaderProps) => {
+  const navigate = useNavigate();
+
   const handleSignOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      toast.error("Error signing out");
+    try {
+      // Clear any existing session first
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        // If no session exists, just redirect to login
+        navigate("/login");
+        return;
+      }
+
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Sign out error:", error);
+        if (error.message.includes("User from sub claim in JWT does not exist")) {
+          // If the user doesn't exist anymore, clear local session and redirect
+          await supabase.auth.signOut({ scope: 'local' });
+          navigate("/login");
+        } else {
+          toast.error("Error signing out. Please try again.");
+        }
+      } else {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Sign out error:", error);
+      toast.error("Error signing out. Please try again.");
     }
   };
 
