@@ -1,3 +1,4 @@
+import React from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,6 +30,10 @@ export function NotificationSettings() {
     }
   }, [settings, form]);
 
+  const onSubmit = async (data: NotificationFormValues) => {
+    updateSettings(data);
+  };
+
   if (isLoading) {
     return (
       <Card>
@@ -58,7 +63,7 @@ export function NotificationSettings() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(updateSettings)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <NotificationToggle
               form={form}
               name="emailNotifications"
