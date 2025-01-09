@@ -20,19 +20,23 @@ import { toast } from "sonner";
 
 interface HabitWizardProps {
   onClose: () => void;
+  parentHabitId?: string;
 }
 
-export const HabitWizard = ({ onClose }: HabitWizardProps) => {
+export const HabitWizard = ({ onClose, parentHabitId }: HabitWizardProps) => {
   const [step, setStep] = useState(1);
   const [habitData, setHabitData] = useState({
     name: "",
     description: "",
+    motivation: "",
     period: "daily" as "daily" | "weekly" | "monthly",
+    goalTarget: "",
+    goalMetric: "",
   });
   const { createHabit } = useHabits();
 
   const handleNext = () => {
-    if (step < 3) {
+    if (step < 4) {
       setStep(step + 1);
     } else {
       handleCreate();
@@ -47,9 +51,13 @@ export const HabitWizard = ({ onClose }: HabitWizardProps) => {
     try {
       await createHabit.mutateAsync({
         name: habitData.name,
-        period: habitData.period
+        description: habitData.description,
+        period: habitData.period,
+        goalTarget: habitData.goalTarget ? parseInt(habitData.goalTarget) : undefined,
+        goalMetric: habitData.goalMetric || undefined,
+        parentHabitId: parentHabitId,
       });
-      toast.success("Habit created successfully!");
+      toast.success(parentHabitId ? "Sub-habit created successfully!" : "Habit created successfully!");
       onClose();
     } catch (error) {
       toast.error("Failed to create habit");
@@ -60,7 +68,9 @@ export const HabitWizard = ({ onClose }: HabitWizardProps) => {
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Create New Habit - Step {step} of 3</DialogTitle>
+          <DialogTitle>
+            {parentHabitId ? "Create New Sub-habit" : "Create New Habit"} - Step {step} of 4
+          </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6 py-4">
@@ -68,10 +78,10 @@ export const HabitWizard = ({ onClose }: HabitWizardProps) => {
             <div className="space-y-4">
               <div>
                 <label className="text-sm font-medium mb-2 block">
-                  What habit would you like to build?
+                  {parentHabitId ? "What sub-habit would you like to build?" : "What habit would you like to build?"}
                 </label>
                 <Input
-                  placeholder="e.g., Read for 30 minutes"
+                  placeholder={parentHabitId ? "e.g., Go to gym 3 times a week" : "e.g., Exercise Regularly"}
                   value={habitData.name}
                   onChange={(e) =>
                     setHabitData({ ...habitData, name: e.target.value })
@@ -110,14 +120,44 @@ export const HabitWizard = ({ onClose }: HabitWizardProps) => {
             <div className="space-y-4">
               <div>
                 <label className="text-sm font-medium mb-2 block">
-                  Add any notes or description (optional)
+                  Set a measurable goal (optional)
+                </label>
+                <div className="flex gap-4">
+                  <Input
+                    type="number"
+                    placeholder="Target"
+                    value={habitData.goalTarget}
+                    onChange={(e) =>
+                      setHabitData({ ...habitData, goalTarget: e.target.value })
+                    }
+                    className="w-1/3"
+                  />
+                  <Input
+                    placeholder="Metric (e.g., minutes, times)"
+                    value={habitData.goalMetric}
+                    onChange={(e) =>
+                      setHabitData({ ...habitData, goalMetric: e.target.value })
+                    }
+                    className="w-2/3"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {step === 4 && (
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium mb-2 block">
+                  Why is this habit important to you?
                 </label>
                 <Textarea
-                  placeholder="Add any additional details..."
-                  value={habitData.description}
+                  placeholder="What motivates you to build this habit?"
+                  value={habitData.motivation}
                   onChange={(e) =>
-                    setHabitData({ ...habitData, description: e.target.value })
+                    setHabitData({ ...habitData, motivation: e.target.value })
                   }
+                  className="min-h-[100px]"
                 />
               </div>
             </div>
@@ -132,7 +172,7 @@ export const HabitWizard = ({ onClose }: HabitWizardProps) => {
               Back
             </Button>
             <Button onClick={handleNext}>
-              {step === 3 ? "Create Habit" : "Next"}
+              {step === 4 ? "Create Habit" : "Next"}
             </Button>
           </div>
         </div>

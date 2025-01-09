@@ -5,9 +5,11 @@ import type { Habit, HabitCompletion } from "@/types/habits";
 
 interface CreateHabitParams {
   name: string;
+  description?: string;
   period?: "daily" | "weekly" | "monthly";
   goalTarget?: number;
   goalMetric?: string;
+  parentHabitId?: string;
 }
 
 export const useHabits = () => {
@@ -49,7 +51,14 @@ export const useHabits = () => {
   });
 
   const createHabit = useMutation({
-    mutationFn: async ({ name, period = "daily", goalTarget, goalMetric }: CreateHabitParams) => {
+    mutationFn: async ({ 
+      name, 
+      description, 
+      period = "daily", 
+      goalTarget,
+      goalMetric,
+      parentHabitId 
+    }: CreateHabitParams) => {
       const { data: userData, error: userError } = await supabase.auth.getUser();
       if (userError) throw userError;
 
@@ -57,10 +66,12 @@ export const useHabits = () => {
         .from("habits")
         .insert({
           name,
+          description,
           frequency: period,
           goal_target: goalTarget,
           goal_metric: goalMetric,
           goal_period: period,
+          parent_habit_id: parentHabitId,
           user_id: userData.user.id,
         })
         .select()
@@ -71,7 +82,6 @@ export const useHabits = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["habits"] });
-      toast.success("Habit created successfully");
     },
     onError: () => {
       toast.error("Failed to create habit");
