@@ -42,11 +42,11 @@ export const FeedbackDialog = () => {
     <>
       <Button
         variant="outline"
-        size="sm"
-        className="gap-2"
+        size="lg"
+        className="gap-2 text-[#6f7782] border-[#edeae9] hover:bg-[#f6f8f9]"
         onClick={() => setOpen(true)}
       >
-        <MessageSquarePlus className="h-4 w-4" />
+        <MessageSquarePlus className="h-5 w-5" />
         Feedback
       </Button>
 
