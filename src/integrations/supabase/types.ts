@@ -244,30 +244,39 @@ export type Database = {
         Row: {
           career_goal: string | null
           created_at: string
+          habit_goals: string[] | null
+          habit_motivations: string[] | null
           id: string
           industry: string | null
           main_challenge: string | null
           onboarding_completed: boolean | null
+          preferred_habit_categories: string[] | null
           role: string | null
           updated_at: string
         }
         Insert: {
           career_goal?: string | null
           created_at?: string
+          habit_goals?: string[] | null
+          habit_motivations?: string[] | null
           id: string
           industry?: string | null
           main_challenge?: string | null
           onboarding_completed?: boolean | null
+          preferred_habit_categories?: string[] | null
           role?: string | null
           updated_at?: string
         }
         Update: {
           career_goal?: string | null
           created_at?: string
+          habit_goals?: string[] | null
+          habit_motivations?: string[] | null
           id?: string
           industry?: string | null
           main_challenge?: string | null
           onboarding_completed?: boolean | null
+          preferred_habit_categories?: string[] | null
           role?: string | null
           updated_at?: string
         }
@@ -281,7 +290,13 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      habit_category:
+        | "health"
+        | "career"
+        | "personal"
+        | "learning"
+        | "relationships"
+        | "productivity"
     }
     CompositeTypes: {
       [_ in never]: never

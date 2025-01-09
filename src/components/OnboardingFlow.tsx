@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { StepOne } from "./onboarding/StepOne";
 import { StepTwo } from "./onboarding/StepTwo";
 import { StepThree } from "./onboarding/StepThree";
+import { StepFour } from "./onboarding/StepFour";
+import { StepFive } from "./onboarding/StepFive";
 import { OnboardingFormData } from "@/types/onboarding";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
@@ -18,6 +20,9 @@ export const OnboardingFlow = () => {
     industry: "",
     goal: "promotion",
     challenge: "time",
+    habitGoals: [],
+    habitMotivations: [],
+    preferredCategories: [],
   });
 
   const handleUpdateFormData = (data: Partial<OnboardingFormData>) => {
@@ -25,7 +30,7 @@ export const OnboardingFlow = () => {
   };
 
   const handleNext = async () => {
-    if (step < 3) {
+    if (step < 5) {
       setStep(step + 1);
     } else {
       try {
@@ -40,6 +45,9 @@ export const OnboardingFlow = () => {
             industry: formData.industry,
             career_goal: formData.goal,
             main_challenge: formData.challenge,
+            habit_goals: formData.habitGoals,
+            habit_motivations: formData.habitMotivations,
+            preferred_habit_categories: formData.preferredCategories,
             onboarding_completed: true
           });
 
@@ -62,6 +70,12 @@ export const OnboardingFlow = () => {
     }
   };
 
+  const handleBack = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white p-4">
       <Card className="w-full max-w-lg p-8 animate-fadeIn">
@@ -78,9 +92,24 @@ export const OnboardingFlow = () => {
             <StepThree formData={formData} onChange={handleUpdateFormData} />
           )}
 
-          <div className="flex justify-end pt-6">
+          {step === 4 && (
+            <StepFour formData={formData} onChange={handleUpdateFormData} />
+          )}
+
+          {step === 5 && (
+            <StepFive formData={formData} onChange={handleUpdateFormData} />
+          )}
+
+          <div className="flex justify-between pt-6">
+            <Button 
+              onClick={handleBack} 
+              variant="outline"
+              disabled={step === 1}
+            >
+              Back
+            </Button>
             <Button onClick={handleNext} className="bg-primary hover:bg-primary/90">
-              {step === 3 ? "Complete" : "Next"}
+              {step === 5 ? "Complete" : "Next"}
             </Button>
           </div>
         </div>

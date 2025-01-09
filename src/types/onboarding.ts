@@ -3,4 +3,7 @@ export type OnboardingFormData = {
   industry: string;
   goal: 'promotion' | 'switch' | 'skills';
   challenge: 'time' | 'clarity' | 'network';
+  habitGoals: string[];
+  habitMotivations: string[];
+  preferredCategories: string[];
 };
