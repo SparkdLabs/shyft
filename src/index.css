@@ -47,6 +47,37 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 261 80% 75%;
   }
+
+  /* Mobile viewport height fix */
+  html {
+    height: -webkit-fill-available;
+  }
+
+  body {
+    min-height: -webkit-fill-available;
+    @apply overscroll-none;
+  }
+
+  /* Safe area insets for modern mobile browsers */
+  .safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
+  }
+
+  /* Disable pull-to-refresh on mobile */
+  body {
+    overscroll-behavior-y: none;
+  }
+
+  /* Improve touch targets on mobile */
+  button, a {
+    @apply touch-manipulation;
+  }
+
+  /* Smooth scrolling */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 @layer base {

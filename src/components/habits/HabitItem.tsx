@@ -27,21 +27,21 @@ export const HabitItem = ({
 }: HabitItemProps) => {
   return (
     <div className="space-y-2">
-      <div className="flex flex-col p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+      <div className="flex flex-col p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
         <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 flex-1">
             <button
               onClick={onToggleExpand}
-              className="p-1 hover:bg-gray-200 rounded-full"
+              className="p-2 -m-2 hover:bg-gray-100 rounded-full transition-colors"
             >
               {isExpanded ? (
-                <ChevronDown className="h-4 w-4" />
+                <ChevronDown className="h-5 w-5 text-gray-500" />
               ) : (
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-5 w-5 text-gray-500" />
               )}
             </button>
-            <div className="space-y-1">
-              <span className="text-gray-700 font-medium">{habit.name}</span>
+            <div className="space-y-1 flex-1">
+              <span className="text-gray-900 font-medium block">{habit.name}</span>
               {habit.description && (
                 <p className="text-sm text-gray-500">{habit.description}</p>
               )}
@@ -52,6 +52,7 @@ export const HabitItem = ({
               variant="outline"
               size="sm"
               onClick={onAddStep}
+              className="hidden md:flex"
             >
               <Plus className="h-4 w-4 mr-1" />
               Add Step
@@ -60,12 +61,14 @@ export const HabitItem = ({
               variant={completions.some(c => c.habit_id === habit.id) ? "default" : "outline"}
               onClick={() => onToggleComplete(habit.id)}
               className={cn(
-                completions.some(c => c.habit_id === habit.id) ? "bg-primary" : "",
-                "min-w-[140px]"
+                "min-w-[44px] md:min-w-[140px] h-[44px]",
+                completions.some(c => c.habit_id === habit.id) ? "bg-primary" : ""
               )}
             >
-              <Check className="mr-2 h-4 w-4" />
-              {completions.some(c => c.habit_id === habit.id) ? "Completed" : "Mark Complete"}
+              <Check className="h-5 w-5 md:mr-2" />
+              <span className="hidden md:inline">
+                {completions.some(c => c.habit_id === habit.id) ? "Completed" : "Mark Complete"}
+              </span>
             </Button>
           </div>
         </div>
