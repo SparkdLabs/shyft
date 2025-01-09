@@ -247,6 +247,30 @@ export type Database = {
         }
         Relationships: []
       }
+      pwa_installations: {
+        Row: {
+          device_type: string | null
+          id: string
+          installed_at: string | null
+          last_active: string | null
+          user_id: string
+        }
+        Insert: {
+          device_type?: string | null
+          id?: string
+          installed_at?: string | null
+          last_active?: string | null
+          user_id: string
+        }
+        Update: {
+          device_type?: string | null
+          id?: string
+          installed_at?: string | null
+          last_active?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_achievements: {
         Row: {
           achievement_id: string | null
