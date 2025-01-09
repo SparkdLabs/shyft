@@ -13,30 +13,19 @@ export const DashboardHeader = ({ onStartTimer }: DashboardHeaderProps) => {
 
   const handleSignOut = async () => {
     try {
-      // Clear any existing session first
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        // If no session exists, just redirect to login
-        navigate("/login");
-        return;
-      }
-
-      const { error } = await supabase.auth.signOut();
+      const { error } = await supabase.auth.signOut({ scope: 'local' });
+      
       if (error) {
         console.error("Sign out error:", error);
-        if (error.message.includes("User from sub claim in JWT does not exist")) {
-          // If the user doesn't exist anymore, clear local session and redirect
-          await supabase.auth.signOut({ scope: 'local' });
-          navigate("/login");
-        } else {
-          toast.error("Error signing out. Please try again.");
-        }
+        toast.error("Error signing out. Please try again.");
       } else {
         navigate("/login");
       }
     } catch (error) {
       console.error("Sign out error:", error);
-      toast.error("Error signing out. Please try again.");
+      // If there's any error, still try to clear the local session and redirect
+      await supabase.auth.signOut({ scope: 'local' });
+      navigate("/login");
     }
   };
 
