@@ -13,13 +13,18 @@ export function BottomNav() {
     { icon: Trophy, label: "Achievements", path: "/achievements" },
   ];
 
+  const handleNavigation = (path: string) => {
+    // Only handle navigation, don't trigger sidebar
+    navigate(path);
+  };
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 md:hidden safe-area-inset-bottom">
       <div className="flex justify-around items-center h-16">
         {navItems.map((item) => (
           <button
             key={item.path}
-            onClick={() => navigate(item.path)}
+            onClick={() => handleNavigation(item.path)}
             className={cn(
               "flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors",
               location.pathname === item.path
