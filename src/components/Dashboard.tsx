@@ -6,6 +6,7 @@ import { ProgressCard } from "./habits/ProgressCard";
 import { DashboardHeader } from "./dashboard/DashboardHeader";
 import { HabitSnapshot } from "./dashboard/HabitSnapshot";
 import { DashboardLayout } from "./dashboard/DashboardLayout";
+import { BottomNav } from "./navigation/BottomNav";
 
 export const Dashboard = () => {
   const [showTimer, setShowTimer] = useState(false);
@@ -15,7 +16,7 @@ export const Dashboard = () => {
     <DashboardLayout>
       <DashboardHeader />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 pb-20 md:pb-0">
         <HabitSnapshot
           habits={habits}
           completions={completions}
@@ -30,6 +31,7 @@ export const Dashboard = () => {
       </div>
 
       {showTimer && <FocusTimer onClose={() => setShowTimer(false)} />}
+      <BottomNav />
     </DashboardLayout>
   );
 };

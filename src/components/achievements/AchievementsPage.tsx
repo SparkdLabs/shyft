@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Award, Trophy, Star, Medal } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
+import { BottomNav } from "@/components/navigation/BottomNav";
 import {
   BarChart,
   Bar,
@@ -136,7 +137,7 @@ export const AchievementsPage = () => {
       <div className="flex min-h-screen w-full">
         <AppSidebar />
         <div className="flex-1 bg-gradient-to-b from-muted to-white p-4 md:p-8">
-          <div className="max-w-6xl mx-auto space-y-8">
+          <div className="max-w-6xl mx-auto space-y-8 pb-20 md:pb-0">
             <div className="bg-white rounded-xl p-6 shadow-sm">
               <div className="flex items-center justify-between mb-6">
                 <div>
@@ -257,6 +258,7 @@ export const AchievementsPage = () => {
             </Card>
           </div>
         </div>
+        <BottomNav />
       </div>
     </SidebarProvider>
   );

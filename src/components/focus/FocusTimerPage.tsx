@@ -8,6 +8,7 @@ import { TimerSettings } from "./TimerSettings";
 import { SessionProgress } from "./SessionProgress";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
+import { BottomNav } from "@/components/navigation/BottomNav";
 
 type TimerMode = "focus" | "break";
 
@@ -107,7 +108,7 @@ export const FocusTimerPage = () => {
       <div className="flex min-h-screen w-full">
         <AppSidebar />
         <div className="flex-1 bg-gradient-to-b from-muted to-white p-4 md:p-8">
-          <div className="container mx-auto max-w-4xl">
+          <div className="container mx-auto max-w-4xl pb-20 md:pb-0">
             <div className="space-y-8">
               <Card className="p-8 shadow-lg">
                 <div className="text-center space-y-6">
@@ -141,6 +142,7 @@ export const FocusTimerPage = () => {
             </div>
           </div>
         </div>
+        <BottomNav />
       </div>
     </SidebarProvider>
   );
