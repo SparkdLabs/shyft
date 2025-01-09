@@ -14,17 +14,44 @@ export const Auth = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (event === "SIGNED_IN" && session) {
-          // Check if user has completed onboarding
-          const { data: preferences } = await supabase
-            .from('user_preferences')
-            .select('onboarding_completed')
-            .eq('id', session.user.id)
-            .single();
+          try {
+            // Check if user has preferences
+            const { data: preferences, error } = await supabase
+              .from('user_preferences')
+              .select('onboarding_completed')
+              .eq('id', session.user.id)
+              .maybeSingle();
 
-          if (!preferences || !preferences.onboarding_completed) {
-            navigate("/onboarding");
-          } else {
-            navigate("/dashboard");
+            if (error) {
+              console.error('Error fetching preferences:', error);
+              throw error;
+            }
+
+            // If no preferences exist, create them
+            if (!preferences) {
+              const { error: insertError } = await supabase
+                .from('user_preferences')
+                .insert([
+                  { 
+                    id: session.user.id,
+                    onboarding_completed: false
+                  }
+                ]);
+
+              if (insertError) {
+                console.error('Error creating preferences:', insertError);
+                throw insertError;
+              }
+
+              navigate("/onboarding");
+            } else if (!preferences.onboarding_completed) {
+              navigate("/onboarding");
+            } else {
+              navigate("/dashboard");
+            }
+          } catch (error) {
+            console.error('Error in auth flow:', error);
+            setErrorMessage("An error occurred during sign in. Please try again.");
           }
         }
         if (event === "SIGNED_OUT") {
