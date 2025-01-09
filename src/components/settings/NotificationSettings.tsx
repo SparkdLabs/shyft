@@ -1,73 +1,12 @@
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form";
-import { Switch } from "@/components/ui/switch";
-import { supabase } from "@/integrations/supabase/client";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
-interface NotificationFormValues {
-  emailNotifications: boolean;
-  pushNotifications: boolean;
-  habitReminders: boolean;
-  achievementAlerts: boolean;
-}
-
-async function fetchNotificationSettings() {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("No user found");
-
-  const { data, error } = await supabase
-    .from('notification_settings')
-    .select('*')
-    .eq('user_id', user.id)
-    .maybeSingle();
-
-  if (error) throw error;
-  return data;
-}
-
-async function createOrUpdateSettings(values: NotificationFormValues) {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("No user found");
-
-  const { data: existingSettings } = await supabase
-    .from('notification_settings')
-    .select('id')
-    .eq('user_id', user.id)
-    .single();
-
-  if (existingSettings) {
-    const { error } = await supabase
-      .from('notification_settings')
-      .update({
-        email_notifications: values.emailNotifications,
-        push_notifications: values.pushNotifications,
-        habit_reminders: values.habitReminders,
-        achievement_alerts: values.achievementAlerts,
-      })
-      .eq('id', existingSettings.id);
-
-    if (error) throw error;
-  } else {
-    const { error } = await supabase
-      .from('notification_settings')
-      .insert([{
-        user_id: user.id,
-        email_notifications: values.emailNotifications,
-        push_notifications: values.pushNotifications,
-        habit_reminders: values.habitReminders,
-        achievement_alerts: values.achievementAlerts,
-      }]);
-
-    if (error) throw error;
-  }
-}
+import { Form } from "@/components/ui/form";
+import { Skeleton } from "@/components/ui/skeleton";
+import { NotificationToggle } from "./notifications/NotificationToggle";
+import { NotificationFormValues, useNotificationSettings } from "./notifications/useNotificationSettings";
 
 export function NotificationSettings() {
-  const queryClient = useQueryClient();
   const form = useForm<NotificationFormValues>({
     defaultValues: {
       emailNotifications: true,
@@ -77,24 +16,9 @@ export function NotificationSettings() {
     },
   });
 
-  const { data: settings, isLoading } = useQuery({
-    queryKey: ['notificationSettings'],
-    queryFn: fetchNotificationSettings,
-  });
+  const { settings, isLoading, updateSettings } = useNotificationSettings();
 
-  const mutation = useMutation({
-    mutationFn: createOrUpdateSettings,
-    onSuccess: () => {
-      toast.success('Notification preferences updated');
-      queryClient.invalidateQueries({ queryKey: ['notificationSettings'] });
-    },
-    onError: (error) => {
-      toast.error('Failed to update notification preferences');
-      console.error('Error updating notification settings:', error);
-    },
-  });
-
-  useEffect(() => {
+  React.useEffect(() => {
     if (settings) {
       form.reset({
         emailNotifications: settings.email_notifications,
@@ -105,12 +29,23 @@ export function NotificationSettings() {
     }
   }, [settings, form]);
 
-  function onSubmit(data: NotificationFormValues) {
-    mutation.mutate(data);
-  }
-
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Notifications</CardTitle>
+          <CardDescription>
+            Choose what notifications you want to receive.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-24 w-full" />
+        </CardContent>
+      </Card>
+    );
   }
 
   return (
@@ -123,86 +58,30 @@ export function NotificationSettings() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
+          <form onSubmit={form.handleSubmit(updateSettings)} className="space-y-4">
+            <NotificationToggle
+              form={form}
               name="emailNotifications"
-              render={({ field }) => (
-                <FormItem className="flex items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">Email Notifications</FormLabel>
-                    <FormDescription>
-                      Receive email notifications about your activity.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
+              label="Email Notifications"
+              description="Receive email notifications about your activity."
             />
-            <FormField
-              control={form.control}
+            <NotificationToggle
+              form={form}
               name="pushNotifications"
-              render={({ field }) => (
-                <FormItem className="flex items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">Push Notifications</FormLabel>
-                    <FormDescription>
-                      Receive push notifications on your device.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
+              label="Push Notifications"
+              description="Receive push notifications on your device."
             />
-            <FormField
-              control={form.control}
+            <NotificationToggle
+              form={form}
               name="habitReminders"
-              render={({ field }) => (
-                <FormItem className="flex items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">Habit Reminders</FormLabel>
-                    <FormDescription>
-                      Get reminded about your daily habits.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
+              label="Habit Reminders"
+              description="Get reminded about your daily habits."
             />
-            <FormField
-              control={form.control}
+            <NotificationToggle
+              form={form}
               name="achievementAlerts"
-              render={({ field }) => (
-                <FormItem className="flex items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">Achievement Alerts</FormLabel>
-                    <FormDescription>
-                      Get notified when you unlock new achievements.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
+              label="Achievement Alerts"
+              description="Get notified when you unlock new achievements."
             />
             <Button type="submit">Save preferences</Button>
           </form>
