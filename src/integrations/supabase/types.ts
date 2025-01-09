@@ -192,6 +192,7 @@ export type Database = {
           habit_reminders: boolean | null
           id: string
           push_notifications: boolean | null
+          push_token: string | null
           updated_at: string
           user_id: string
         }
@@ -202,6 +203,7 @@ export type Database = {
           habit_reminders?: boolean | null
           id?: string
           push_notifications?: boolean | null
+          push_token?: string | null
           updated_at?: string
           user_id: string
         }
@@ -212,6 +214,7 @@ export type Database = {
           habit_reminders?: boolean | null
           id?: string
           push_notifications?: boolean | null
+          push_token?: string | null
           updated_at?: string
           user_id?: string
         }
