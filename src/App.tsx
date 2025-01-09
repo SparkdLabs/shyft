@@ -7,7 +7,6 @@ import { OnboardingFlow } from "./components/OnboardingFlow";
 import { Dashboard } from "./components/Dashboard";
 import { HabitsPage } from "./components/habits/HabitsPage";
 import { FocusTimerPage } from "./components/focus/FocusTimerPage";
-import { CalendarPage } from "./components/calendar/CalendarPage";
 import { AchievementsPage } from "./components/achievements/AchievementsPage";
 import { SettingsPage } from "./components/settings/SettingsPage";
 import { Auth } from "./components/Auth";
@@ -104,12 +103,6 @@ const App = () => {
                 path="/focus"
                 element={
                   isAuthenticated ? <FocusTimerPage /> : <Navigate to="/login" />
-                }
-              />
-              <Route
-                path="/calendar"
-                element={
-                  isAuthenticated ? <CalendarPage /> : <Navigate to="/login" />
                 }
               />
               <Route
