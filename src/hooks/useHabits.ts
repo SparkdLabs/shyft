@@ -119,11 +119,26 @@ export const useHabits = () => {
     },
   });
 
+  const deleteHabit = useMutation({
+    mutationFn: async (habitId: string) => {
+      const { error } = await supabase
+        .from("habits")
+        .delete()
+        .eq("id", habitId);
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["habits"] });
+    },
+  });
+
   return {
     habits,
     habitsLoading,
     completions,
     createHabit,
     toggleHabit,
+    deleteHabit,
   };
 };

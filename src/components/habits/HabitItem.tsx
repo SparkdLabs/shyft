@@ -1,9 +1,19 @@
 import { Button } from "@/components/ui/button";
-import { Check, ChevronDown, ChevronRight, Plus } from "lucide-react";
+import { Check, ChevronDown, ChevronRight, Plus, Trash2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import type { Habit, HabitCompletion } from "@/types/habits";
 import { useEffect, useRef, useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface HabitItemProps {
   habit: Habit;
@@ -13,6 +23,7 @@ interface HabitItemProps {
   onToggleExpand: () => void;
   onAddStep: () => void;
   onToggleComplete: (habitId: string) => void;
+  onDelete: (habitId: string) => void;
   progress: number;
 }
 
@@ -24,11 +35,14 @@ export const HabitItem = ({
   onToggleExpand,
   onAddStep,
   onToggleComplete,
+  onDelete,
   progress,
 }: HabitItemProps) => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [swiping, setSwiping] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
   const itemRef = useRef<HTMLDivElement>(null);
 
   // Minimum swipe distance in pixels
@@ -37,6 +51,7 @@ export const HabitItem = ({
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
+    setSwipeDirection(null);
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
@@ -47,6 +62,7 @@ export const HabitItem = ({
     
     if (Math.abs(distance) > minSwipeDistance) {
       setSwiping(true);
+      setSwipeDirection(distance > 0 ? 'left' : 'right');
     }
     
     setTouchEnd(currentTouch);
@@ -59,18 +75,24 @@ export const HabitItem = ({
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
     
-    if (isLeftSwipe || isRightSwipe) {
+    if (isLeftSwipe) {
       // Trigger haptic feedback if available
       if (window.navigator.vibrate) {
         window.navigator.vibrate(50);
       }
-      
+      setShowDeleteDialog(true);
+    } else if (isRightSwipe) {
+      // Trigger haptic feedback if available
+      if (window.navigator.vibrate) {
+        window.navigator.vibrate(50);
+      }
       onToggleComplete(habit.id);
     }
     
     setTouchStart(null);
     setTouchEnd(null);
     setSwiping(false);
+    setSwipeDirection(null);
   };
 
   return (
@@ -79,7 +101,9 @@ export const HabitItem = ({
         ref={itemRef}
         className={cn(
           "flex flex-col p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200",
-          swiping && "opacity-50"
+          swiping && "opacity-50",
+          swipeDirection === 'left' && "translate-x-[-100px]",
+          swipeDirection === 'right' && "translate-x-[100px]"
         )}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
@@ -138,6 +162,30 @@ export const HabitItem = ({
           <Progress value={progress} className="h-2" />
         </div>
       </div>
+
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Habit</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this habit? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                onDelete(habit.id);
+                setShowDeleteDialog(false);
+              }}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

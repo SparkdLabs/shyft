@@ -10,6 +10,7 @@ interface HabitListContentProps {
   onToggleExpand: (habitId: string) => void;
   onToggleComplete: (habitId: string) => void;
   onAddSubHabit: (parentId: string) => void;
+  onDeleteHabit: (habitId: string) => void;
 }
 
 export const HabitListContent = ({
@@ -20,6 +21,7 @@ export const HabitListContent = ({
   onToggleExpand,
   onToggleComplete,
   onAddSubHabit,
+  onDeleteHabit,
 }: HabitListContentProps) => {
   const parentHabits = habits.filter(h => !h.parent_habit_id);
   const getChildHabits = (parentId: string) => habits.filter(h => h.parent_habit_id === parentId);
@@ -49,6 +51,7 @@ export const HabitListContent = ({
               onToggleExpand={() => onToggleExpand(habit.id)}
               onAddStep={() => onAddSubHabit(habit.id)}
               onToggleComplete={onToggleComplete}
+              onDelete={onDeleteHabit}
               progress={calculateProgress(habit.id)}
             />
             

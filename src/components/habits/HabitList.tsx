@@ -20,7 +20,7 @@ export const HabitList = () => {
   const [selectedParentId, setSelectedParentId] = useState<string | undefined>();
   const queryClient = useQueryClient();
   
-  const { habits, habitsLoading, completions, toggleHabit } = useHabits();
+  const { habits, habitsLoading, completions, toggleHabit, deleteHabit } = useHabits();
 
   // Save expanded habits to localStorage whenever it changes
   useEffect(() => {
@@ -74,6 +74,15 @@ export const HabitList = () => {
     setShowAddStep(true);
   };
 
+  const handleDeleteHabit = async (habitId: string) => {
+    try {
+      await deleteHabit.mutateAsync(habitId);
+      toast.success('Habit deleted successfully');
+    } catch (error) {
+      toast.error('Failed to delete habit');
+    }
+  };
+
   return (
     <div className="space-y-4">
       <HabitListHeader
@@ -99,6 +108,7 @@ export const HabitList = () => {
             onToggleExpand={toggleExpanded}
             onToggleComplete={(habitId) => toggleHabit.mutate(habitId)}
             onAddSubHabit={handleAddSubHabit}
+            onDeleteHabit={handleDeleteHabit}
           />
         )}
       </PullToRefresh>
