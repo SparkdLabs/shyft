@@ -1,8 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useHabits } from "@/hooks/useHabits";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { HabitWizard } from "./HabitWizard";
 import { AddStepDialog } from "./AddStepDialog";
 import { HabitItem } from "./HabitItem";
@@ -10,6 +7,7 @@ import { SubHabitItem } from "./SubHabitItem";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import PullToRefresh from "react-simple-pull-to-refresh";
+import { HabitListHeader } from "./HabitListHeader";
 
 export const HabitList = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<"daily" | "weekly" | "monthly">("daily");
@@ -85,33 +83,14 @@ export const HabitList = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="space-y-1">
-          <h2 className="text-xl font-semibold text-primary">Habits</h2>
-          <div className="flex items-center space-x-2">
-            <Select value={selectedPeriod} onValueChange={(value: "daily" | "weekly" | "monthly") => setSelectedPeriod(value)}>
-              <SelectTrigger className="w-[140px] bg-white">
-                <SelectValue placeholder="Select view" />
-              </SelectTrigger>
-              <SelectContent className="bg-white border shadow-md">
-                <SelectItem value="daily" className="hover:bg-gray-50">Daily View</SelectItem>
-                <SelectItem value="weekly" className="hover:bg-gray-50">Weekly View</SelectItem>
-                <SelectItem value="monthly" className="hover:bg-gray-50">Monthly View</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-        <Button
-          onClick={() => {
-            setSelectedParentId(undefined);
-            setShowWizard(true);
-          }}
-          className="bg-primary hover:bg-primary/90"
-        >
-          <Plus className="h-4 w-4 mr-1" />
-          New Habit
-        </Button>
-      </div>
+      <HabitListHeader
+        selectedPeriod={selectedPeriod}
+        onPeriodChange={setSelectedPeriod}
+        onNewHabit={() => {
+          setSelectedParentId(undefined);
+          setShowWizard(true);
+        }}
+      />
 
       <PullToRefresh onRefresh={handleRefresh} className="min-h-screen">
         <div className="space-y-3">
