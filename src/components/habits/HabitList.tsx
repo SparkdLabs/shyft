@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import { useHabits } from "@/hooks/useHabits";
 import { HabitWizard } from "./HabitWizard";
 import { AddStepDialog } from "./AddStepDialog";
-import { HabitItem } from "./HabitItem";
-import { SubHabitItem } from "./SubHabitItem";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import { HabitListHeader } from "./HabitListHeader";
+import { HabitListContent } from "./HabitListContent";
 
 export const HabitList = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<"daily" | "weekly" | "monthly">("daily");
@@ -32,7 +31,6 @@ export const HabitList = () => {
     }
   }, [queryClient]);
 
-  // Save data to localStorage when it changes
   useEffect(() => {
     if (habits) {
       localStorage.setItem('habits', JSON.stringify(habits));
@@ -62,23 +60,9 @@ export const HabitList = () => {
     setExpandedHabits(newExpanded);
   };
 
-  const parentHabits = habits.filter(h => !h.parent_habit_id);
-  const getChildHabits = (parentId: string) => habits.filter(h => h.parent_habit_id === parentId);
-
   const handleAddSubHabit = (parentId: string) => {
     setSelectedParentId(parentId);
     setShowAddStep(true);
-  };
-
-  const calculateProgress = (parentId: string) => {
-    const subHabits = getChildHabits(parentId);
-    if (subHabits.length === 0) return 0;
-    
-    const completedSubHabits = subHabits.filter(habit => 
-      completions.some(completion => completion.habit_id === habit.id)
-    ).length;
-    
-    return (completedSubHabits / subHabits.length) * 100;
   };
 
   return (
@@ -93,43 +77,21 @@ export const HabitList = () => {
       />
 
       <PullToRefresh onRefresh={handleRefresh} className="min-h-screen">
-        <div className="space-y-3">
-          {habitsLoading ? (
-            <p className="text-gray-500">Loading habits...</p>
-          ) : parentHabits.length === 0 ? (
-            <p className="text-gray-500">No habits created yet</p>
-          ) : (
-            parentHabits
-              .filter(habit => habit.frequency === selectedPeriod)
-              .map((habit) => (
-                <div key={habit.id}>
-                  <HabitItem
-                    habit={habit}
-                    isExpanded={expandedHabits.has(habit.id)}
-                    completions={completions}
-                    childHabits={getChildHabits(habit.id)}
-                    onToggleExpand={() => toggleExpanded(habit.id)}
-                    onAddStep={() => handleAddSubHabit(habit.id)}
-                    onToggleComplete={(habitId) => toggleHabit.mutate(habitId)}
-                    progress={calculateProgress(habit.id)}
-                  />
-                  
-                  {expandedHabits.has(habit.id) && (
-                    <div className="pl-8 space-y-2">
-                      {getChildHabits(habit.id).map((subHabit) => (
-                        <SubHabitItem
-                          key={subHabit.id}
-                          subHabit={subHabit}
-                          completions={completions}
-                          onToggleComplete={(habitId) => toggleHabit.mutate(habitId)}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))
-          )}
-        </div>
+        {habitsLoading ? (
+          <p className="text-gray-500">Loading habits...</p>
+        ) : habits.length === 0 ? (
+          <p className="text-gray-500">No habits created yet</p>
+        ) : (
+          <HabitListContent
+            habits={habits}
+            completions={completions}
+            expandedHabits={expandedHabits}
+            selectedPeriod={selectedPeriod}
+            onToggleExpand={toggleExpanded}
+            onToggleComplete={(habitId) => toggleHabit.mutate(habitId)}
+            onAddSubHabit={handleAddSubHabit}
+          />
+        )}
       </PullToRefresh>
 
       {showWizard && (
