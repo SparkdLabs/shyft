@@ -1,14 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Timer, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { FeedbackDialog } from "./FeedbackDialog";
+import { PWAInstallButton } from "../PWAInstallButton";
 
-interface DashboardHeaderProps {
-  onStartTimer: () => void;
-}
-
-export const DashboardHeader = ({ onStartTimer }: DashboardHeaderProps) => {
+export const DashboardHeader = () => {
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -16,19 +14,16 @@ export const DashboardHeader = ({ onStartTimer }: DashboardHeaderProps) => {
       const { error } = await supabase.auth.getSession();
       if (error) {
         console.error("Session error:", error);
-        // If we can't get the session, just clear it locally
         await supabase.auth.signOut();
         navigate("/login");
         return;
       }
 
-      // Attempt to sign out
       await supabase.auth.signOut();
       navigate("/login");
     } catch (error) {
       console.error("Sign out error:", error);
       toast.error("Error signing out. Please try again.");
-      // Even if there's an error, attempt to navigate away
       navigate("/login");
     }
   };
@@ -39,15 +34,9 @@ export const DashboardHeader = ({ onStartTimer }: DashboardHeaderProps) => {
         <h1 className="text-xl md:text-3xl font-semibold text-[#151b26] mb-1">Welcome Back</h1>
         <p className="text-sm md:text-base text-[#6f7782]">Track your progress and build better habits</p>
       </div>
-      <div className="flex flex-col md:flex-row gap-3">
-        <Button
-          onClick={onStartTimer}
-          className="bg-[#796eff] hover:bg-[#635ac7] text-white shadow-sm transition-all duration-200 w-full md:w-auto"
-          size="lg"
-        >
-          <Timer className="mr-2 h-5 w-5" />
-          <span className="whitespace-nowrap">Start Focus Session</span>
-        </Button>
+      <div className="flex gap-2">
+        <PWAInstallButton />
+        <FeedbackDialog />
         <Button
           variant="outline"
           onClick={handleSignOut}

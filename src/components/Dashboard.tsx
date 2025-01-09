@@ -13,7 +13,7 @@ export const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <DashboardHeader onStartTimer={() => setShowTimer(true)} />
+      <DashboardHeader />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
         <HabitSnapshot
@@ -21,6 +21,7 @@ export const Dashboard = () => {
           completions={completions}
           habitsLoading={habitsLoading}
           className="md:col-span-2"
+          onStartTimer={() => setShowTimer(true)}
         />
 
         <Card className="p-6 shadow-sm border border-[#edeae9] hover:shadow-md transition-shadow duration-200">
