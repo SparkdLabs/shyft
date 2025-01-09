@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Plus, Star, Target } from "lucide-react";
+import { Plus, Star, Target, ChevronDown, ChevronUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useState } from "react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 const HABIT_TEMPLATES = {
   health: [
@@ -38,6 +40,8 @@ const HABIT_TEMPLATES = {
 };
 
 export const PersonalizedRecommendations = () => {
+  const [isOpen, setIsOpen] = useState(true);
+  
   const { data: preferences, isLoading, error } = useQuery({
     queryKey: ["user-preferences"],
     queryFn: async () => {
@@ -88,55 +92,66 @@ export const PersonalizedRecommendations = () => {
     const focusAreas = preferences?.focus_areas || [];
     const recommendedHabits: Array<{ name: string; description: string }> = [];
     
-    // Get habits based on user's focus areas
     focusAreas.forEach(area => {
       const areaKey = area.toLowerCase().replace(/[^a-z]/g, '') as keyof typeof HABIT_TEMPLATES;
       const templates = HABIT_TEMPLATES[areaKey] || [];
-      recommendedHabits.push(...templates.slice(0, 2)); // Get top 2 habits from each area
+      recommendedHabits.push(...templates.slice(0, 2));
     });
 
-    // If no focus areas or not enough recommendations, add default habits
     if (recommendedHabits.length < 3) {
       recommendedHabits.push(...HABIT_TEMPLATES.default);
     }
 
-    // Return unique recommendations
     return recommendedHabits.slice(0, 6);
   };
 
   const recommendedHabits = getRecommendedHabits();
 
   return (
-    <div className="space-y-4">
+    <Collapsible open={isOpen} onOpenChange={setIsOpen} className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-primary">Recommended Habits</h2>
         <div className="flex items-center gap-2">
-          <Star className="h-5 w-5 text-primary" />
-          <Target className="h-5 w-5 text-primary" />
-        </div>
-      </div>
-      <div className="grid gap-4">
-        {recommendedHabits.map((habit, index) => (
-          <div
-            key={index}
-            className="flex items-center justify-between p-4 bg-secondary/50 rounded-lg border border-border hover:bg-secondary/70 transition-colors"
-          >
-            <div>
-              <h3 className="font-medium text-primary">{habit.name}</h3>
-              <p className="text-sm text-muted-foreground">{habit.description}</p>
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => createHabit(habit.name, habit.description)}
-              className="ml-4"
-            >
-              <Plus className="h-4 w-4 mr-1" />
-              Add
-            </Button>
+          <h2 className="text-xl font-semibold text-primary">Recommended Habits</h2>
+          <div className="flex items-center gap-2">
+            <Star className="h-5 w-5 text-primary" />
+            <Target className="h-5 w-5 text-primary" />
           </div>
-        ))}
+        </div>
+        <CollapsibleTrigger asChild>
+          <Button variant="ghost" size="sm" className="hover:bg-transparent">
+            {isOpen ? (
+              <ChevronUp className="h-5 w-5 text-primary" />
+            ) : (
+              <ChevronDown className="h-5 w-5 text-primary" />
+            )}
+          </Button>
+        </CollapsibleTrigger>
       </div>
-    </div>
+      
+      <CollapsibleContent className="space-y-4">
+        <div className="grid gap-4">
+          {recommendedHabits.map((habit, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-between p-4 bg-secondary/50 rounded-lg border border-border hover:bg-secondary/70 transition-colors"
+            >
+              <div>
+                <h3 className="font-medium text-primary">{habit.name}</h3>
+                <p className="text-sm text-muted-foreground">{habit.description}</p>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => createHabit(habit.name, habit.description)}
+                className="ml-4"
+              >
+                <Plus className="h-4 w-4 mr-1" />
+                Add
+              </Button>
+            </div>
+          ))}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
 };
