@@ -1,13 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Check, ChevronDown, ChevronRight, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useHabits } from "@/hooks/useHabits";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { HabitWizard } from "./HabitWizard";
 import { AddStepDialog } from "./AddStepDialog";
-import { Progress } from "@/components/ui/progress";
-import { cn } from "@/lib/utils";
+import { HabitItem } from "./HabitItem";
+import { SubHabitItem } from "./SubHabitItem";
 
 export const HabitList = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<"daily" | "weekly" | "monthly">("daily");
@@ -86,80 +85,27 @@ export const HabitList = () => {
           parentHabits
             .filter(habit => habit.frequency === selectedPeriod)
             .map((habit) => (
-              <div key={habit.id} className="space-y-2">
-                <div className="flex flex-col p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => toggleExpanded(habit.id)}
-                        className="p-1 hover:bg-gray-200 rounded-full"
-                      >
-                        {expandedHabits.has(habit.id) ? (
-                          <ChevronDown className="h-4 w-4" />
-                        ) : (
-                          <ChevronRight className="h-4 w-4" />
-                        )}
-                      </button>
-                      <div className="space-y-1">
-                        <span className="text-gray-700 font-medium">{habit.name}</span>
-                        {habit.description && (
-                          <p className="text-sm text-gray-500">{habit.description}</p>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleAddSubHabit(habit.id)}
-                      >
-                        <Plus className="h-4 w-4 mr-1" />
-                        Add Step
-                      </Button>
-                      <Button
-                        variant={completions.some(c => c.habit_id === habit.id) ? "default" : "outline"}
-                        onClick={() => toggleHabit.mutate(habit.id)}
-                        className={cn(
-                          completions.some(c => c.habit_id === habit.id) ? "bg-primary" : "",
-                          "min-w-[140px]"
-                        )}
-                      >
-                        <Check className="mr-2 h-4 w-4" />
-                        {completions.some(c => c.habit_id === habit.id) ? "Completed" : "Mark Complete"}
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  {/* Progress bar for parent habit */}
-                  <div className="mt-2">
-                    <div className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-600">Progress</span>
-                      <span className="font-medium">{Math.round(calculateProgress(habit.id))}%</span>
-                    </div>
-                    <Progress value={calculateProgress(habit.id)} className="h-2" />
-                  </div>
-                </div>
+              <div key={habit.id}>
+                <HabitItem
+                  habit={habit}
+                  isExpanded={expandedHabits.has(habit.id)}
+                  completions={completions}
+                  childHabits={getChildHabits(habit.id)}
+                  onToggleExpand={() => toggleExpanded(habit.id)}
+                  onAddStep={() => handleAddSubHabit(habit.id)}
+                  onToggleComplete={(habitId) => toggleHabit.mutate(habitId)}
+                  progress={calculateProgress(habit.id)}
+                />
                 
                 {expandedHabits.has(habit.id) && (
                   <div className="pl-8 space-y-2">
                     {getChildHabits(habit.id).map((subHabit) => (
-                      <div
+                      <SubHabitItem
                         key={subHabit.id}
-                        className="flex items-center justify-between p-4 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
-                      >
-                        <div className="space-y-1">
-                          <span className="text-gray-700">{subHabit.name}</span>
-                        </div>
-                        <Button
-                          variant={completions.some(c => c.habit_id === subHabit.id) ? "default" : "outline"}
-                          onClick={() => toggleHabit.mutate(subHabit.id)}
-                          className={completions.some(c => c.habit_id === subHabit.id) ? "bg-primary" : ""}
-                          size="sm"
-                        >
-                          <Check className="mr-2 h-4 w-4" />
-                          {completions.some(c => c.habit_id === subHabit.id) ? "Completed" : "Mark Complete"}
-                        </Button>
-                      </div>
+                        subHabit={subHabit}
+                        completions={completions}
+                        onToggleComplete={(habitId) => toggleHabit.mutate(habitId)}
+                      />
                     ))}
                   </div>
                 )}
