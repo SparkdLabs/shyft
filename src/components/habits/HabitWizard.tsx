@@ -66,14 +66,14 @@ export const HabitWizard = ({ onClose, parentHabitId }: HabitWizardProps) => {
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[650px] p-6">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl">
+          <DialogTitle>
             {parentHabitId ? "Create New Sub-habit" : "Create New Habit"} - Step {step} of 4
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6 py-6">
+        <div className="space-y-6 py-4">
           {step === 1 && (
             <div className="space-y-4">
               <div>
@@ -86,7 +86,6 @@ export const HabitWizard = ({ onClose, parentHabitId }: HabitWizardProps) => {
                   onChange={(e) =>
                     setHabitData({ ...habitData, name: e.target.value })
                   }
-                  className="text-lg"
                 />
               </div>
             </div>
@@ -104,7 +103,7 @@ export const HabitWizard = ({ onClose, parentHabitId }: HabitWizardProps) => {
                     setHabitData({ ...habitData, period: value })
                   }
                 >
-                  <SelectTrigger className="text-lg">
+                  <SelectTrigger>
                     <SelectValue placeholder="Select frequency" />
                   </SelectTrigger>
                   <SelectContent>
@@ -131,7 +130,7 @@ export const HabitWizard = ({ onClose, parentHabitId }: HabitWizardProps) => {
                     onChange={(e) =>
                       setHabitData({ ...habitData, goalTarget: e.target.value })
                     }
-                    className="w-1/3 text-lg"
+                    className="w-1/3"
                   />
                   <Input
                     placeholder="Metric (e.g., minutes, times)"
@@ -139,7 +138,7 @@ export const HabitWizard = ({ onClose, parentHabitId }: HabitWizardProps) => {
                     onChange={(e) =>
                       setHabitData({ ...habitData, goalMetric: e.target.value })
                     }
-                    className="w-2/3 text-lg"
+                    className="w-2/3"
                   />
                 </div>
               </div>
@@ -158,22 +157,21 @@ export const HabitWizard = ({ onClose, parentHabitId }: HabitWizardProps) => {
                   onChange={(e) =>
                     setHabitData({ ...habitData, motivation: e.target.value })
                   }
-                  className="min-h-[150px] text-lg"
+                  className="min-h-[100px]"
                 />
               </div>
             </div>
           )}
 
-          <div className="flex justify-between mt-8">
+          <div className="flex justify-between mt-6">
             <Button
               variant="outline"
               onClick={handleBack}
               disabled={step === 1}
-              className="px-6"
             >
               Back
             </Button>
-            <Button onClick={handleNext} className="px-6">
+            <Button onClick={handleNext}>
               {step === 4 ? "Create Habit" : "Next"}
             </Button>
           </div>

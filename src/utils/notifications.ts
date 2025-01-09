@@ -1,5 +1,3 @@
-import { supabase } from "@/integrations/supabase/client";
-
 export async function requestNotificationPermission() {
   if (!("Notification" in window)) {
     console.log("This browser does not support notifications");
@@ -24,21 +22,9 @@ export async function registerServiceWorker() {
 }
 
 export async function saveNotificationToken(token: string) {
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  if (!user) {
-    console.error("No authenticated user found");
-    return false;
-  }
-
   const { error } = await supabase
     .from("notification_settings")
-    .upsert({ 
-      user_id: user.id,
-      push_token: token 
-    }, { 
-      onConflict: 'user_id' 
-    });
+    .upsert({ push_token: token }, { onConflict: "user_id" });
 
   if (error) {
     console.error("Error saving notification token:", error);

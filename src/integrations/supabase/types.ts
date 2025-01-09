@@ -276,30 +276,6 @@ export type Database = {
           },
         ]
       }
-      user_feedback: {
-        Row: {
-          created_at: string
-          feedback: string
-          id: string
-          status: string | null
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          feedback: string
-          id?: string
-          status?: string | null
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          feedback?: string
-          id?: string
-          status?: string | null
-          user_id?: string
-        }
-        Relationships: []
-      }
       user_preferences: {
         Row: {
           challenges: string[] | null

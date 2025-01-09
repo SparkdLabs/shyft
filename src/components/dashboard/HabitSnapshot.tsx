@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, Timer } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Habit, HabitCompletion } from "@/types/habits";
 import { cn } from "@/lib/utils";
@@ -10,10 +10,9 @@ interface HabitSnapshotProps {
   completions: HabitCompletion[];
   habitsLoading: boolean;
   className?: string;
-  onStartTimer: () => void;
 }
 
-export const HabitSnapshot = ({ habits, completions, habitsLoading, className, onStartTimer }: HabitSnapshotProps) => {
+export const HabitSnapshot = ({ habits, completions, habitsLoading, className }: HabitSnapshotProps) => {
   const navigate = useNavigate();
   const habitSnapshot = habits.slice(0, 3);
   const completedToday = completions.length;
@@ -24,25 +23,14 @@ export const HabitSnapshot = ({ habits, completions, habitsLoading, className, o
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-[#151b26]">Today's Habits</h2>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onStartTimer}
-              className="text-[#796eff] hover:text-[#635ac7] hover:bg-[#f6f8f9]"
-            >
-              <Timer className="mr-1 h-4 w-4" />
-              Focus
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={() => navigate('/habits')}
-              className="text-[#796eff] hover:text-[#635ac7] hover:bg-[#f6f8f9]"
-            >
-              View All
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
+          <Button
+            variant="ghost"
+            onClick={() => navigate('/habits')}
+            className="text-[#796eff] hover:text-[#635ac7] hover:bg-[#f6f8f9]"
+          >
+            View All
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
         </div>
         
         <div className="space-y-3">

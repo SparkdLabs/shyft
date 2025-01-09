@@ -2,6 +2,7 @@ import {
   LayoutDashboard,
   CheckCircle2,
   Timer,
+  Calendar,
   Trophy,
   Settings,
   Menu,
@@ -35,6 +36,11 @@ const menuItems = [
     title: "Focus Timer",
     icon: Timer,
     url: "/focus",
+  },
+  {
+    title: "Calendar",
+    icon: Calendar,
+    url: "/calendar",
   },
   {
     title: "Achievements",
