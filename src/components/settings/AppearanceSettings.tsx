@@ -22,15 +22,15 @@ export function AppearanceSettings() {
 
   function onSubmit(data: AppearanceFormValues) {
     setTheme(data.theme);
-    toast.success('Appearance settings updated');
+    toast.success('Theme updated successfully');
   }
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Appearance</CardTitle>
         <CardDescription>
-          Customize how Shyft looks on your device.
+          Customize how Shyft looks on your device
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -44,7 +44,10 @@ export function AppearanceSettings() {
                   <FormLabel>Theme</FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        setTheme(value as "light" | "dark" | "system");
+                      }}
                       defaultValue={field.value}
                       className="grid grid-cols-3 gap-4"
                     >
@@ -55,9 +58,9 @@ export function AppearanceSettings() {
                             className="peer sr-only"
                           />
                         </FormControl>
-                        <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+                        <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
                           <Sun className="mb-2 h-6 w-6" />
-                          <span>Light</span>
+                          Light
                         </FormLabel>
                       </FormItem>
                       <FormItem>
@@ -67,9 +70,9 @@ export function AppearanceSettings() {
                             className="peer sr-only"
                           />
                         </FormControl>
-                        <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+                        <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
                           <Moon className="mb-2 h-6 w-6" />
-                          <span>Dark</span>
+                          Dark
                         </FormLabel>
                       </FormItem>
                       <FormItem>
@@ -79,9 +82,9 @@ export function AppearanceSettings() {
                             className="peer sr-only"
                           />
                         </FormControl>
-                        <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+                        <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
                           <Monitor className="mb-2 h-6 w-6" />
-                          <span>System</span>
+                          System
                         </FormLabel>
                       </FormItem>
                     </RadioGroup>
