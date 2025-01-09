@@ -14,6 +14,7 @@ import { Auth } from "./components/Auth";
 import { MarketingSite } from "./components/marketing/MarketingSite";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { ThemeProvider } from "./providers/ThemeProvider";
 
 const queryClient = new QueryClient();
 
@@ -38,62 +39,64 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<MarketingSite />} />
-            <Route
-              path="/login"
-              element={isAuthenticated ? <Navigate to="/dashboard" /> : <Auth />}
-            />
-            <Route
-              path="/onboarding"
-              element={
-                isAuthenticated ? <OnboardingFlow /> : <Navigate to="/login" />
-              }
-            />
-            <Route
-              path="/dashboard"
-              element={
-                isAuthenticated ? <Dashboard /> : <Navigate to="/login" />
-              }
-            />
-            <Route
-              path="/habits"
-              element={
-                isAuthenticated ? <HabitsPage /> : <Navigate to="/login" />
-              }
-            />
-            <Route
-              path="/focus"
-              element={
-                isAuthenticated ? <FocusTimerPage /> : <Navigate to="/login" />
-              }
-            />
-            <Route
-              path="/calendar"
-              element={
-                isAuthenticated ? <CalendarPage /> : <Navigate to="/login" />
-              }
-            />
-            <Route
-              path="/achievements"
-              element={
-                isAuthenticated ? <AchievementsPage /> : <Navigate to="/login" />
-              }
-            />
-            <Route
-              path="/settings"
-              element={
-                isAuthenticated ? <SettingsPage /> : <Navigate to="/login" />
-              }
-            />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <ThemeProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<MarketingSite />} />
+              <Route
+                path="/login"
+                element={isAuthenticated ? <Navigate to="/dashboard" /> : <Auth />}
+              />
+              <Route
+                path="/onboarding"
+                element={
+                  isAuthenticated ? <OnboardingFlow /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  isAuthenticated ? <Dashboard /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/habits"
+                element={
+                  isAuthenticated ? <HabitsPage /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/focus"
+                element={
+                  isAuthenticated ? <FocusTimerPage /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/calendar"
+                element={
+                  isAuthenticated ? <CalendarPage /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/achievements"
+                element={
+                  isAuthenticated ? <AchievementsPage /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  isAuthenticated ? <SettingsPage /> : <Navigate to="/login" />
+                }
+              />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };
