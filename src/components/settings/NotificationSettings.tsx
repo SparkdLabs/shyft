@@ -1,9 +1,12 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface NotificationFormValues {
   emailNotifications: boolean;
@@ -12,7 +15,50 @@ interface NotificationFormValues {
   achievementAlerts: boolean;
 }
 
+async function fetchNotificationSettings() {
+  const { data, error } = await supabase
+    .from('notification_settings')
+    .select('*')
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+async function createOrUpdateSettings(values: NotificationFormValues) {
+  const { data: existingSettings } = await supabase
+    .from('notification_settings')
+    .select('id')
+    .single();
+
+  if (existingSettings) {
+    const { error } = await supabase
+      .from('notification_settings')
+      .update({
+        email_notifications: values.emailNotifications,
+        push_notifications: values.pushNotifications,
+        habit_reminders: values.habitReminders,
+        achievement_alerts: values.achievementAlerts,
+      })
+      .eq('id', existingSettings.id);
+
+    if (error) throw error;
+  } else {
+    const { error } = await supabase
+      .from('notification_settings')
+      .insert([{
+        email_notifications: values.emailNotifications,
+        push_notifications: values.pushNotifications,
+        habit_reminders: values.habitReminders,
+        achievement_alerts: values.achievementAlerts,
+      }]);
+
+    if (error) throw error;
+  }
+}
+
 export function NotificationSettings() {
+  const queryClient = useQueryClient();
   const form = useForm<NotificationFormValues>({
     defaultValues: {
       emailNotifications: true,
@@ -22,9 +68,40 @@ export function NotificationSettings() {
     },
   });
 
+  const { data: settings, isLoading } = useQuery({
+    queryKey: ['notificationSettings'],
+    queryFn: fetchNotificationSettings,
+  });
+
+  const mutation = useMutation({
+    mutationFn: createOrUpdateSettings,
+    onSuccess: () => {
+      toast.success('Notification preferences updated');
+      queryClient.invalidateQueries({ queryKey: ['notificationSettings'] });
+    },
+    onError: (error) => {
+      toast.error('Failed to update notification preferences');
+      console.error('Error updating notification settings:', error);
+    },
+  });
+
+  useEffect(() => {
+    if (settings) {
+      form.reset({
+        emailNotifications: settings.email_notifications,
+        pushNotifications: settings.push_notifications,
+        habitReminders: settings.habit_reminders,
+        achievementAlerts: settings.achievement_alerts,
+      });
+    }
+  }, [settings, form]);
+
   function onSubmit(data: NotificationFormValues) {
-    toast.success('Notification preferences updated');
-    console.log('Notification settings:', data);
+    mutation.mutate(data);
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
   return (

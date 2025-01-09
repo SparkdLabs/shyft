@@ -184,6 +184,39 @@ export type Database = {
           },
         ]
       }
+      notification_settings: {
+        Row: {
+          achievement_alerts: boolean | null
+          created_at: string
+          email_notifications: boolean | null
+          habit_reminders: boolean | null
+          id: string
+          push_notifications: boolean | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          achievement_alerts?: boolean | null
+          created_at?: string
+          email_notifications?: boolean | null
+          habit_reminders?: boolean | null
+          id?: string
+          push_notifications?: boolean | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          achievement_alerts?: boolean | null
+          created_at?: string
+          email_notifications?: boolean | null
+          habit_reminders?: boolean | null
+          id?: string
+          push_notifications?: boolean | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
