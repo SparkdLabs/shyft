@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { FeedbackDialog } from "./FeedbackDialog";
-import { PWAInstallButton } from "../PWAInstallButton";
 
 export const DashboardHeader = () => {
   const navigate = useNavigate();
@@ -35,7 +34,6 @@ export const DashboardHeader = () => {
         <p className="text-sm md:text-base text-[#6f7782]">Track your progress and build better habits</p>
       </div>
       <div className="flex gap-2">
-        <PWAInstallButton />
         <FeedbackDialog />
         <Button
           variant="outline"

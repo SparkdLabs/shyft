@@ -1,4 +1,4 @@
-import { Home, CheckCircle2, Timer, Trophy } from "lucide-react";
+import { Home, CheckCircle2, Timer, Trophy, Menu } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 

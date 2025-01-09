@@ -12,7 +12,7 @@ export const HabitsPage = () => {
   return (
     <DashboardLayout>
       <div className="space-y-6 md:space-y-8 pb-20 md:pb-0">
-        <div className="px-4 md:px-0 mt-14 md:mt-0">
+        <div className="px-4 md:px-0 mt-14 md:mt-0"> {/* Added margin-top for mobile */}
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-primary">
             Habits
           </h1>
