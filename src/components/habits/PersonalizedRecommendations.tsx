@@ -1,48 +1,39 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Plus, Briefcase, Brain } from "lucide-react";
+import { Plus, Star, Target } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const HABIT_TEMPLATES = {
-  promotion: {
-    technology: [
-      { name: "Code Review", description: "Review or contribute to a coding project" },
-      { name: "Tech Reading", description: "Read industry news or technical documentation" },
-      { name: "Skill Development", description: "Practice a new programming language or tool" }
-    ],
-    finance: [
-      { name: "Market Analysis", description: "Review financial markets and trends" },
-      { name: "Network Building", description: "Connect with industry professionals" },
-      { name: "Financial Learning", description: "Study new financial instruments or strategies" }
-    ],
-    default: [
-      { name: "Skill Development", description: "Learn something new in your field" },
-      { name: "Network Building", description: "Connect with industry professionals" },
-      { name: "Industry Research", description: "Stay updated with industry trends" }
-    ]
-  },
-  skills: {
-    technology: [
-      { name: "Daily Coding", description: "Practice coding for 30 minutes" },
-      { name: "Documentation", description: "Write or review technical documentation" },
-      { name: "Learning Time", description: "Watch an educational tech video" }
-    ],
-    finance: [
-      { name: "Financial Analysis", description: "Practice financial modeling" },
-      { name: "Industry Research", description: "Read financial reports and analysis" },
-      { name: "Certification Study", description: "Study for financial certifications" }
-    ],
-    default: [
-      { name: "Daily Learning", description: "Dedicate time to learning new skills" },
-      { name: "Practice Session", description: "Practice core skills in your field" },
-      { name: "Research Time", description: "Research industry best practices" }
-    ]
-  },
+  health: [
+    { name: "Daily Exercise", description: "Stay active with regular physical activity" },
+    { name: "Healthy Eating", description: "Make nutritious food choices" },
+    { name: "Sleep Schedule", description: "Maintain consistent sleep patterns" }
+  ],
+  personal: [
+    { name: "Meditation", description: "Practice mindfulness daily" },
+    { name: "Reading", description: "Read for personal growth" },
+    { name: "Journaling", description: "Record thoughts and reflections" }
+  ],
+  relationships: [
+    { name: "Family Time", description: "Spend quality time with family" },
+    { name: "Friend Check-in", description: "Stay connected with friends" },
+    { name: "Active Listening", description: "Practice being present in conversations" }
+  ],
+  productivity: [
+    { name: "Morning Routine", description: "Start your day with purpose" },
+    { name: "Task Planning", description: "Organize daily priorities" },
+    { name: "Focus Sessions", description: "Work without distractions" }
+  ],
+  learning: [
+    { name: "Skill Practice", description: "Dedicate time to learning new skills" },
+    { name: "Online Course", description: "Progress in educational content" },
+    { name: "Knowledge Sharing", description: "Teach others what you know" }
+  ],
   default: [
-    { name: "Professional Development", description: "Work on career growth activities" },
-    { name: "Networking", description: "Build professional relationships" },
-    { name: "Learning", description: "Develop new skills" }
+    { name: "Daily Reflection", description: "Review your day and set intentions" },
+    { name: "Goal Progress", description: "Track steps toward your goals" },
+    { name: "Habit Building", description: "Develop positive routines" }
   ]
 };
 
@@ -60,7 +51,7 @@ export const PersonalizedRecommendations = () => {
         .maybeSingle();
 
       if (error) throw error;
-      return data || { career_goal: 'default', industry: 'default' }; // Provide default values if no preferences exist
+      return data || { focus_areas: [], preferred_habit_categories: [] };
     }
   });
 
@@ -94,13 +85,23 @@ export const PersonalizedRecommendations = () => {
   }
 
   const getRecommendedHabits = () => {
-    const careerGoal = preferences?.career_goal || "default";
-    const industry = preferences?.industry?.toLowerCase() || "default";
+    const focusAreas = preferences?.focus_areas || [];
+    const recommendedHabits: Array<{ name: string; description: string }> = [];
     
-    const templates = HABIT_TEMPLATES[careerGoal as keyof typeof HABIT_TEMPLATES] || HABIT_TEMPLATES.default;
-    return typeof templates === "object" && !Array.isArray(templates)
-      ? templates[industry as keyof typeof templates] || templates.default
-      : templates;
+    // Get habits based on user's focus areas
+    focusAreas.forEach(area => {
+      const areaKey = area.toLowerCase().replace(/[^a-z]/g, '') as keyof typeof HABIT_TEMPLATES;
+      const templates = HABIT_TEMPLATES[areaKey] || [];
+      recommendedHabits.push(...templates.slice(0, 2)); // Get top 2 habits from each area
+    });
+
+    // If no focus areas or not enough recommendations, add default habits
+    if (recommendedHabits.length < 3) {
+      recommendedHabits.push(...HABIT_TEMPLATES.default);
+    }
+
+    // Return unique recommendations
+    return recommendedHabits.slice(0, 6);
   };
 
   const recommendedHabits = getRecommendedHabits();
@@ -110,8 +111,8 @@ export const PersonalizedRecommendations = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-primary">Recommended Habits</h2>
         <div className="flex items-center gap-2">
-          <Briefcase className="h-5 w-5 text-primary" />
-          <Brain className="h-5 w-5 text-primary" />
+          <Star className="h-5 w-5 text-primary" />
+          <Target className="h-5 w-5 text-primary" />
         </div>
       </div>
       <div className="grid gap-4">
