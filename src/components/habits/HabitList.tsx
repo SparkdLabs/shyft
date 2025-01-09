@@ -10,13 +10,22 @@ import { HabitListContent } from "./HabitListContent";
 
 export const HabitList = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<"daily" | "weekly" | "monthly">("daily");
-  const [expandedHabits, setExpandedHabits] = useState<Set<string>>(new Set());
+  const [expandedHabits, setExpandedHabits] = useState<Set<string>>(() => {
+    // Initialize from localStorage if available
+    const saved = localStorage.getItem('expandedHabits');
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
   const [showWizard, setShowWizard] = useState(false);
   const [showAddStep, setShowAddStep] = useState(false);
   const [selectedParentId, setSelectedParentId] = useState<string | undefined>();
   const queryClient = useQueryClient();
   
   const { habits, habitsLoading, completions, toggleHabit } = useHabits();
+
+  // Save expanded habits to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('expandedHabits', JSON.stringify(Array.from(expandedHabits)));
+  }, [expandedHabits]);
 
   // Offline support using localStorage
   useEffect(() => {
