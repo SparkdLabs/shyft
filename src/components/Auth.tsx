@@ -14,7 +14,18 @@ export const Auth = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (event === "SIGNED_IN" && session) {
-          navigate("/dashboard");
+          // Check if user has completed onboarding
+          const { data: preferences } = await supabase
+            .from('user_preferences')
+            .select('onboarding_completed')
+            .eq('id', session.user.id)
+            .single();
+
+          if (!preferences || !preferences.onboarding_completed) {
+            navigate("/onboarding");
+          } else {
+            navigate("/dashboard");
+          }
         }
         if (event === "SIGNED_OUT") {
           navigate("/");
