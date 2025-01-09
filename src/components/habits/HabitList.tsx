@@ -53,13 +53,13 @@ export const HabitList = () => {
           <h2 className="text-xl font-semibold text-primary">Habits</h2>
           <div className="flex items-center space-x-2">
             <Select value={selectedPeriod} onValueChange={(value: "daily" | "weekly" | "monthly") => setSelectedPeriod(value)}>
-              <SelectTrigger className="w-[140px]">
+              <SelectTrigger className="w-[140px] bg-white">
                 <SelectValue placeholder="Select view" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="daily">Daily View</SelectItem>
-                <SelectItem value="weekly">Weekly View</SelectItem>
-                <SelectItem value="monthly">Monthly View</SelectItem>
+              <SelectContent className="bg-white border shadow-md">
+                <SelectItem value="daily" className="hover:bg-gray-50">Daily View</SelectItem>
+                <SelectItem value="weekly" className="hover:bg-gray-50">Weekly View</SelectItem>
+                <SelectItem value="monthly" className="hover:bg-gray-50">Monthly View</SelectItem>
               </SelectContent>
             </Select>
           </div>
