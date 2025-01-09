@@ -242,42 +242,39 @@ export type Database = {
       }
       user_preferences: {
         Row: {
-          career_goal: string | null
+          challenges: string[] | null
           created_at: string
+          focus_areas: string[] | null
           habit_goals: string[] | null
           habit_motivations: string[] | null
           id: string
-          industry: string | null
-          main_challenge: string | null
           onboarding_completed: boolean | null
           preferred_habit_categories: string[] | null
-          role: string | null
+          primary_goals: string[] | null
           updated_at: string
         }
         Insert: {
-          career_goal?: string | null
+          challenges?: string[] | null
           created_at?: string
+          focus_areas?: string[] | null
           habit_goals?: string[] | null
           habit_motivations?: string[] | null
           id: string
-          industry?: string | null
-          main_challenge?: string | null
           onboarding_completed?: boolean | null
           preferred_habit_categories?: string[] | null
-          role?: string | null
+          primary_goals?: string[] | null
           updated_at?: string
         }
         Update: {
-          career_goal?: string | null
+          challenges?: string[] | null
           created_at?: string
+          focus_areas?: string[] | null
           habit_goals?: string[] | null
           habit_motivations?: string[] | null
           id?: string
-          industry?: string | null
-          main_challenge?: string | null
           onboarding_completed?: boolean | null
           preferred_habit_categories?: string[] | null
-          role?: string | null
+          primary_goals?: string[] | null
           updated_at?: string
         }
         Relationships: []

@@ -16,10 +16,9 @@ export const OnboardingFlow = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<OnboardingFormData>({
-    role: "",
-    industry: "",
-    goal: "promotion",
-    challenge: "time",
+    focusAreas: [],
+    primaryGoals: [],
+    challenges: [],
     habitGoals: [],
     habitMotivations: [],
     preferredCategories: [],
@@ -41,10 +40,9 @@ export const OnboardingFlow = () => {
           .from('user_preferences')
           .upsert({
             id: user.id,
-            role: formData.role,
-            industry: formData.industry,
-            career_goal: formData.goal,
-            main_challenge: formData.challenge,
+            focus_areas: formData.focusAreas,
+            primary_goals: formData.primaryGoals,
+            challenges: formData.challenges,
             habit_goals: formData.habitGoals,
             habit_motivations: formData.habitMotivations,
             preferred_habit_categories: formData.preferredCategories,
