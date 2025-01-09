@@ -5,12 +5,14 @@ import { useState } from "react";
 import { useHabits } from "@/hooks/useHabits";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { HabitWizard } from "./HabitWizard";
+import { AddStepDialog } from "./AddStepDialog";
 import { cn } from "@/lib/utils";
 
 export const HabitList = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<"daily" | "weekly" | "monthly">("daily");
   const [expandedHabits, setExpandedHabits] = useState<Set<string>>(new Set());
   const [showWizard, setShowWizard] = useState(false);
+  const [showAddStep, setShowAddStep] = useState(false);
   const [selectedParentId, setSelectedParentId] = useState<string | undefined>();
   
   const { habits, habitsLoading, completions, toggleHabit } = useHabits();
@@ -30,7 +32,7 @@ export const HabitList = () => {
 
   const handleAddSubHabit = (parentId: string) => {
     setSelectedParentId(parentId);
-    setShowWizard(true);
+    setShowAddStep(true);
   };
 
   return (
@@ -160,6 +162,16 @@ export const HabitList = () => {
             setSelectedParentId(undefined);
           }}
           parentHabitId={selectedParentId}
+        />
+      )}
+
+      {showAddStep && selectedParentId && (
+        <AddStepDialog
+          parentHabitId={selectedParentId}
+          onClose={() => {
+            setShowAddStep(false);
+            setSelectedParentId(undefined);
+          }}
         />
       )}
     </div>

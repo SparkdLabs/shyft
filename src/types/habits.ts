@@ -9,6 +9,7 @@ export type Habit = {
   goal_target: number | null;
   goal_period: "daily" | "weekly" | "monthly" | null;
   goal_metric: string | null;
+  parent_habit_id: string | null;
 };
 
 export type HabitCompletion = {
