@@ -107,7 +107,7 @@ export type Database = {
           completed_at?: string
           habit_id: string
           id?: string
-          user_id?: string
+          user_id: string
         }
         Update: {
           completed_at?: string
@@ -278,25 +278,25 @@ export type Database = {
       }
       user_feedback: {
         Row: {
-          id: string
-          user_id: string
-          feedback: string
           created_at: string
+          feedback: string
+          id: string
           status: string | null
+          user_id: string
         }
         Insert: {
-          id?: string
-          user_id: string
-          feedback: string
           created_at?: string
+          feedback: string
+          id?: string
           status?: string | null
+          user_id: string
         }
         Update: {
-          id?: string
-          user_id?: string
-          feedback?: string
           created_at?: string
+          feedback?: string
+          id?: string
           status?: string | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -370,7 +370,7 @@ export type Tables<
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never,
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -424,8 +424,8 @@ export type TablesUpdate<
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U
-    }
+        Update: infer U
+      }
       ? U
       : never
     : never
