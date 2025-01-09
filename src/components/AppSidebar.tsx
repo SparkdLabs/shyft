@@ -20,6 +20,11 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useNavigate, useLocation } from "react-router-dom";
 
+interface AppSidebarProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
 const menuItems = [
   {
     title: "Dashboard",
@@ -48,10 +53,14 @@ const menuItems = [
   },
 ];
 
-export function AppSidebar() {
+export function AppSidebar({ open, onOpenChange }: AppSidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { open, setOpen, isMobile } = useSidebar();
+  const { isMobile } = useSidebar();
+  
+  const setOpen = (value: boolean) => {
+    onOpenChange?.(value);
+  };
 
   const MenuContent = () => (
     <>
