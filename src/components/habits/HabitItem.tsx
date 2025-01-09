@@ -3,6 +3,7 @@ import { Check, ChevronDown, ChevronRight, Plus } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import type { Habit, HabitCompletion } from "@/types/habits";
+import { useEffect, useRef, useState } from "react";
 
 interface HabitItemProps {
   habit: Habit;
@@ -25,9 +26,65 @@ export const HabitItem = ({
   onToggleComplete,
   progress,
 }: HabitItemProps) => {
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [swiping, setSwiping] = useState(false);
+  const itemRef = useRef<HTMLDivElement>(null);
+
+  // Minimum swipe distance in pixels
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (!touchStart) return;
+    
+    const currentTouch = e.targetTouches[0].clientX;
+    const distance = touchStart - currentTouch;
+    
+    if (Math.abs(distance) > minSwipeDistance) {
+      setSwiping(true);
+    }
+    
+    setTouchEnd(currentTouch);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe || isRightSwipe) {
+      // Trigger haptic feedback if available
+      if (window.navigator.vibrate) {
+        window.navigator.vibrate(50);
+      }
+      
+      onToggleComplete(habit.id);
+    }
+    
+    setTouchStart(null);
+    setTouchEnd(null);
+    setSwiping(false);
+  };
+
   return (
     <div className="space-y-2">
-      <div className="flex flex-col p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+      <div
+        ref={itemRef}
+        className={cn(
+          "flex flex-col p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200",
+          swiping && "opacity-50"
+        )}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2 flex-1">
             <button

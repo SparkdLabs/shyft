@@ -3,13 +3,15 @@ import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { HabitList } from "./HabitList";
 import { HabitWizard } from "./HabitWizard";
 import { PersonalizedRecommendations } from "./PersonalizedRecommendations";
+import { HabitFAB } from "./HabitFAB";
+import { BottomNav } from "@/components/navigation/BottomNav";
 
 export const HabitsPage = () => {
   const [showWizard, setShowWizard] = useState(false);
 
   return (
     <DashboardLayout>
-      <div className="space-y-6 md:space-y-8">
+      <div className="space-y-6 md:space-y-8 pb-20 md:pb-0">
         <div className="px-4 md:px-0">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Habits</h1>
           <p className="text-sm md:text-base text-muted-foreground">
@@ -24,6 +26,9 @@ export const HabitsPage = () => {
           <HabitList />
         </div>
       </div>
+      
+      <HabitFAB onClick={() => setShowWizard(true)} />
+      <BottomNav />
     </DashboardLayout>
   );
 };
