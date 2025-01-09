@@ -12,9 +12,9 @@ export const HabitsPage = () => {
   return (
     <DashboardLayout>
       <div className="space-y-6 md:space-y-8 pb-20 md:pb-0">
-        <div className="px-4 md:px-6 pt-24 md:pt-6"> {/* Adjusted padding for better spacing */}
+        <div className="px-4 md:px-6 pt-28 md:pt-8"> {/* Adjusted padding-top for better spacing */}
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-primary mb-2">
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-primary mb-3">
               Habits
             </h1>
             <p className="text-sm md:text-base text-muted-foreground">
