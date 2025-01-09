@@ -16,19 +16,27 @@ interface NotificationFormValues {
 }
 
 async function fetchNotificationSettings() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("No user found");
+
   const { data, error } = await supabase
     .from('notification_settings')
     .select('*')
-    .single();
+    .eq('user_id', user.id)
+    .maybeSingle();
 
   if (error) throw error;
   return data;
 }
 
 async function createOrUpdateSettings(values: NotificationFormValues) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("No user found");
+
   const { data: existingSettings } = await supabase
     .from('notification_settings')
     .select('id')
+    .eq('user_id', user.id)
     .single();
 
   if (existingSettings) {
@@ -47,6 +55,7 @@ async function createOrUpdateSettings(values: NotificationFormValues) {
     const { error } = await supabase
       .from('notification_settings')
       .insert([{
+        user_id: user.id,
         email_notifications: values.emailNotifications,
         push_notifications: values.pushNotifications,
         habit_reminders: values.habitReminders,
