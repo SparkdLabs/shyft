@@ -13,18 +13,16 @@ export const DashboardHeader = ({ onStartTimer }: DashboardHeaderProps) => {
 
   const handleSignOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut({ scope: 'local' });
-      
-      if (error) {
-        console.error("Sign out error:", error);
-        toast.error("Error signing out. Please try again.");
-      } else {
-        navigate("/login");
-      }
+      // Force local session deletion without making network requests
+      await supabase.auth.signOut({
+        scope: 'local',
+        shouldDeleteSession: true
+      });
+      navigate("/login");
     } catch (error) {
       console.error("Sign out error:", error);
-      // If there's any error, still try to clear the local session and redirect
-      await supabase.auth.signOut({ scope: 'local' });
+      toast.error("Error signing out. Please try again.");
+      // Even if there's an error, attempt to navigate away
       navigate("/login");
     }
   };
