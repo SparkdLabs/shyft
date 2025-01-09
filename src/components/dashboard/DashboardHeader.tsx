@@ -13,11 +13,8 @@ export const DashboardHeader = ({ onStartTimer }: DashboardHeaderProps) => {
 
   const handleSignOut = async () => {
     try {
-      // Force local session deletion without making network requests
-      await supabase.auth.signOut({
-        scope: 'local',
-        shouldDeleteSession: true
-      });
+      // Sign out locally only
+      await supabase.auth.signOut({ scope: 'local' });
       navigate("/login");
     } catch (error) {
       console.error("Sign out error:", error);
