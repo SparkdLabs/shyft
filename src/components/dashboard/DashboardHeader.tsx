@@ -13,8 +13,17 @@ export const DashboardHeader = ({ onStartTimer }: DashboardHeaderProps) => {
 
   const handleSignOut = async () => {
     try {
-      // Sign out locally only
-      await supabase.auth.signOut({ scope: 'local' });
+      const { error } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Session error:", error);
+        // If we can't get the session, just clear it locally
+        await supabase.auth.signOut();
+        navigate("/login");
+        return;
+      }
+
+      // Attempt to sign out
+      await supabase.auth.signOut();
       navigate("/login");
     } catch (error) {
       console.error("Sign out error:", error);
