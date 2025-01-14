@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext } from "react";
 
 type Theme = "light" | "dark" | "system";
 
@@ -11,7 +11,10 @@ type ThemeContextType = {
   setTheme: (theme: Theme) => void;
 };
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType>({
+  theme: "system",
+  setTheme: () => null,
+});
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme, setTheme] = React.useState<Theme>(() => {
