@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
+import * as React from "react";
 
 type Theme = "light" | "dark" | "system";
 
@@ -11,20 +11,20 @@ type ThemeContextType = {
   setTheme: (theme: Theme) => void;
 };
 
-const ThemeContext = createContext<ThemeContextType>({
+const ThemeContext = React.createContext<ThemeContextType>({
   theme: "system",
   setTheme: () => null,
 });
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
+  const [theme, setTheme] = React.useState<Theme>(() => {
     if (typeof window !== 'undefined') {
       return (localStorage.getItem("theme") as Theme) || "system";
     }
     return "system";
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     const root = window.document.documentElement;
     
     const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -39,7 +39,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     
     const handleChange = () => {
@@ -54,7 +54,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, [theme]);
 
-  const value = useMemo(
+  const value = React.useMemo(
     () => ({
       theme,
       setTheme,
@@ -70,7 +70,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 }
 
 export function useTheme() {
-  const context = useContext(ThemeContext);
+  const context = React.useContext(ThemeContext);
   if (context === undefined) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
