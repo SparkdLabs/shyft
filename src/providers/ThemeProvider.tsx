@@ -2,81 +2,43 @@
 
 import * as React from "react";
 
-type Theme = "light" | "dark" | "system";
-
 type ThemeProviderProps = {
   children: React.ReactNode;
 };
 
-type ThemeContextType = {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-};
-
-const defaultTheme: Theme = "system";
-
-const ThemeContext = React.createContext<ThemeContextType>({
-  theme: defaultTheme,
-  setTheme: () => null,
-});
-
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = React.useState<Theme>(() => {
-    if (typeof window !== 'undefined') {
-      return (localStorage.getItem("theme") as Theme) || defaultTheme;
-    }
-    return defaultTheme;
-  });
-
   React.useEffect(() => {
-    const root = window.document.documentElement;
+    // Check local storage or system preference
+    const isDark = localStorage.getItem("theme") === "dark" || 
+      (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
     
-    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-
-    const applyTheme = theme === "system" ? systemTheme : theme;
+    // Apply theme
+    document.documentElement.classList.toggle("dark", isDark);
     
-    root.classList.remove("light", "dark");
-    root.classList.add(applyTheme);
+    // Store preference
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  }, []);
 
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  React.useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    
-    const handleChange = () => {
-      if (theme === "system") {
-        const root = window.document.documentElement;
-        root.classList.remove("light", "dark");
-        root.classList.add(mediaQuery.matches ? "dark" : "light");
-      }
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [theme]);
-
-  const value = React.useMemo(
-    () => ({
-      theme,
-      setTheme,
-    }),
-    [theme]
-  );
+  const toggleTheme = () => {
+    const isDark = document.documentElement.classList.contains("dark");
+    document.documentElement.classList.toggle("dark", !isDark);
+    localStorage.setItem("theme", !isDark ? "dark" : "light");
+  };
 
   return (
-    <ThemeContext.Provider value={value}>
+    <div className="min-h-screen bg-background text-foreground">
       {children}
-    </ThemeContext.Provider>
+    </div>
   );
 }
 
+// Custom hook for theme toggling
 export function useTheme() {
-  const context = React.useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-  return context;
+  const toggleTheme = React.useCallback(() => {
+    const isDark = document.documentElement.classList.contains("dark");
+    document.documentElement.classList.toggle("dark", !isDark);
+    localStorage.setItem("theme", !isDark ? "dark" : "light");
+  }, []);
+
+  return { toggleTheme };
 }
