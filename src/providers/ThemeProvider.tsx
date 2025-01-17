@@ -11,18 +11,25 @@ interface ThemeContextType {
   setTheme: (theme: Theme) => void;
 }
 
+const defaultTheme: Theme = "system";
+
 const ThemeContext = React.createContext<ThemeContextType>({
-  theme: "system",
+  theme: defaultTheme,
   setTheme: () => null,
 });
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
+  const [mounted, setMounted] = React.useState(false);
   const [theme, setTheme] = React.useState<Theme>(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem("theme") as Theme) || "system";
+      return (localStorage.getItem("theme") as Theme) || defaultTheme;
     }
-    return "system";
+    return defaultTheme;
   });
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   React.useEffect(() => {
     const root = window.document.documentElement;
@@ -62,6 +69,10 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     }),
     [theme]
   );
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <ThemeContext.Provider value={value}>
