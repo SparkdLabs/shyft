@@ -21,34 +21,40 @@ const comparisonData = {
 
 export const ComparisonSection = () => {
   return (
-    <section className="py-16 px-4 bg-white">
+    <section className="py-24 px-4 bg-gradient-to-b from-white to-primary-50">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-4">Why Choose Shyft?</h2>
-        <p className="text-lg text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 bg-gradient-to-r from-primary-600 to-primary-900 bg-clip-text text-transparent">
+          Why Choose Shyft?
+        </h2>
+        <p className="text-lg text-muted-foreground text-center mb-16 max-w-2xl mx-auto">
           See how Shyft stands out from traditional habit tracking apps
         </p>
         
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Shyft Column */}
-          <div className="bg-primary/5 rounded-xl p-8">
-            <h3 className="text-xl font-semibold mb-6 text-primary">Shyft</h3>
-            <ul className="space-y-4">
+          <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+            <h3 className="text-xl font-semibold mb-8 text-primary">Shyft</h3>
+            <ul className="space-y-6">
               {comparisonData.shyft.map((feature, index) => (
                 <li key={index} className="flex items-center gap-3">
-                  <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                  <span>{feature}</span>
+                  <div className="p-1 bg-primary-50 rounded-full">
+                    <Check className="h-4 w-4 text-primary" />
+                  </div>
+                  <span className="text-gray-700">{feature}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Others Column */}
-          <div className="bg-muted rounded-xl p-8">
-            <h3 className="text-xl font-semibold mb-6 text-muted-foreground">Others</h3>
-            <ul className="space-y-4">
+          <div className="bg-gray-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+            <h3 className="text-xl font-semibold mb-8 text-gray-400">Others</h3>
+            <ul className="space-y-6">
               {comparisonData.others.map((feature, index) => (
-                <li key={index} className="flex items-center gap-3 text-muted-foreground">
-                  <X className="h-5 w-5 text-muted-foreground/70 flex-shrink-0" />
+                <li key={index} className="flex items-center gap-3 text-gray-400">
+                  <div className="p-1 bg-gray-200 rounded-full">
+                    <X className="h-4 w-4" />
+                  </div>
                   <span>{feature}</span>
                 </li>
               ))}

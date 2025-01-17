@@ -2,8 +2,8 @@ import { CheckCircle, Calendar, BarChart } from "lucide-react";
 
 const features = [
   {
-    title: "Habit Tracking",
-    description: "Build and maintain positive habits with our intuitive tracking system.",
+    title: "Smart Habit Tracking",
+    description: "Build and maintain positive habits with our AI-powered tracking system.",
     icon: CheckCircle,
   },
   {
@@ -20,18 +20,26 @@ const features = [
 
 export const FeatureSection = () => {
   return (
-    <section className="py-16 px-4 bg-muted">
+    <section className="py-24 px-4 bg-gradient-to-b from-white to-primary-50">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">Powerful Features to Drive Success</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 bg-gradient-to-r from-primary-600 to-primary-900 bg-clip-text text-transparent">
+          Powerful Features to Drive Success
+        </h2>
+        <p className="text-lg text-muted-foreground text-center mb-16 max-w-2xl mx-auto">
+          Everything you need to transform your habits and achieve your goals
+        </p>
+
         <div className="grid md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <div
               key={feature.title}
-              className="p-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 animate-slideUp"
+              className="p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 animate-slideUp group"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <feature.icon className="h-12 w-12 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+              <div className="mb-6 p-4 bg-primary-50 rounded-xl w-fit group-hover:scale-110 transition-transform duration-300">
+                <feature.icon className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">{feature.title}</h3>
               <p className="text-muted-foreground">{feature.description}</p>
             </div>
           ))}
