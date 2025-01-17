@@ -1,4 +1,5 @@
-import React from "react";
+import * as React from "react";
+import { createContext, useContext, useEffect, useState, useMemo } from "react";
 
 type Theme = "light" | "dark" | "system";
 
@@ -11,20 +12,22 @@ type ThemeContextType = {
   setTheme: (theme: Theme) => void;
 };
 
-const ThemeContext = React.createContext<ThemeContextType>({
-  theme: "system",
+const defaultTheme: Theme = "system";
+
+const ThemeContext = createContext<ThemeContextType>({
+  theme: defaultTheme,
   setTheme: () => null,
 });
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = React.useState<Theme>(() => {
+  const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
-      return (localStorage.getItem("theme") as Theme) || "system";
+      return (localStorage.getItem("theme") as Theme) || defaultTheme;
     }
-    return "system";
+    return defaultTheme;
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     const root = window.document.documentElement;
     
     const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -39,7 +42,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     
     const handleChange = () => {
@@ -54,7 +57,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, [theme]);
 
-  const value = React.useMemo(
+  const value = useMemo(
     () => ({
       theme,
       setTheme,
@@ -70,7 +73,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 }
 
 export function useTheme() {
-  const context = React.useContext(ThemeContext);
+  const context = useContext(ThemeContext);
   if (context === undefined) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
