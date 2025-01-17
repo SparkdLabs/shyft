@@ -17,7 +17,7 @@ export const AppearanceSettings = () => {
 
       <div className="space-y-4">
         <RadioGroup
-          defaultValue={theme}
+          value={theme}
           onValueChange={(value) => setTheme(value as "light" | "dark" | "system")}
         >
           <div className="flex items-center space-x-2">
