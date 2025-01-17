@@ -1,54 +1,61 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import * as z from "zod";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useTheme } from "@/providers/ThemeProvider";
-import { Monitor, Moon, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-interface AppearanceFormValues {
-  theme: "light" | "dark" | "system";
-}
+const appearanceFormSchema = z.object({
+  theme: z.enum(["light", "dark", "system"], {
+    required_error: "Please select a theme.",
+  }),
+});
+
+type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
 
 export function AppearanceSettings() {
-  const { toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   
   const form = useForm<AppearanceFormValues>({
+    resolver: zodResolver(appearanceFormSchema),
     defaultValues: {
-      theme: document.documentElement.classList.contains("dark") ? "dark" : "light",
+      theme: theme,
     },
   });
 
   function onSubmit(data: AppearanceFormValues) {
-    const isDark = document.documentElement.classList.contains("dark");
-    const shouldBeDark = data.theme === "dark" || 
-      (data.theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    
-    if (isDark !== shouldBeDark) {
-      toggleTheme();
-    }
-    
-    localStorage.setItem("theme", data.theme);
+    setTheme(data.theme);
     toast.success('Theme updated successfully');
   }
 
   return (
-    <Card className="w-full">
+    <Card>
       <CardHeader>
         <CardTitle>Appearance</CardTitle>
         <CardDescription>
-          Customize how Shyft looks on your device
+          Customize the appearance of the app. Automatically switch between day
+          and night themes.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
               name="theme"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="space-y-1">
                   <FormLabel>Theme</FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -58,49 +65,68 @@ export function AppearanceSettings() {
                     >
                       <FormItem>
                         <FormControl>
-                          <RadioGroupItem
-                            value="light"
-                            className="peer sr-only"
-                          />
+                          <div>
+                            <RadioGroupItem
+                              value="light"
+                              id="light"
+                              className="peer sr-only"
+                            />
+                            <label
+                              htmlFor="light"
+                              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-muted peer-checked:border-primary [&:has([data-state=checked])]:border-primary"
+                            >
+                              <span className="mb-2">☀️</span>
+                              Light
+                            </label>
+                          </div>
                         </FormControl>
-                        <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-                          <Sun className="mb-2 h-6 w-6" />
-                          Light
-                        </FormLabel>
                       </FormItem>
                       <FormItem>
                         <FormControl>
-                          <RadioGroupItem
-                            value="dark"
-                            className="peer sr-only"
-                          />
+                          <div>
+                            <RadioGroupItem
+                              value="dark"
+                              id="dark"
+                              className="peer sr-only"
+                            />
+                            <label
+                              htmlFor="dark"
+                              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-muted peer-checked:border-primary [&:has([data-state=checked])]:border-primary"
+                            >
+                              <span className="mb-2">🌙</span>
+                              Dark
+                            </label>
+                          </div>
                         </FormControl>
-                        <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-                          <Moon className="mb-2 h-6 w-6" />
-                          Dark
-                        </FormLabel>
                       </FormItem>
                       <FormItem>
                         <FormControl>
-                          <RadioGroupItem
-                            value="system"
-                            className="peer sr-only"
-                          />
+                          <div>
+                            <RadioGroupItem
+                              value="system"
+                              id="system"
+                              className="peer sr-only"
+                            />
+                            <label
+                              htmlFor="system"
+                              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-muted peer-checked:border-primary [&:has([data-state=checked])]:border-primary"
+                            >
+                              <span className="mb-2">💻</span>
+                              System
+                            </label>
+                          </div>
                         </FormControl>
-                        <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-                          <Monitor className="mb-2 h-6 w-6" />
-                          System
-                        </FormLabel>
                       </FormItem>
                     </RadioGroup>
                   </FormControl>
                   <FormDescription>
-                    Select a theme for your application
+                    Select the theme for the dashboard.
                   </FormDescription>
+                  <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Save preferences</Button>
+            <Button type="submit">Update preferences</Button>
           </form>
         </Form>
       </CardContent>

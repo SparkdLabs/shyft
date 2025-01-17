@@ -1,44 +1,55 @@
-"use client";
+import { createContext, useContext, useEffect, useState } from "react";
 
-import * as React from "react";
+type Theme = "light" | "dark" | "system";
 
-type ThemeProviderProps = {
-  children: React.ReactNode;
-};
+interface ThemeContextType {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+}
 
-export function ThemeProvider({ children }: ThemeProviderProps) {
-  React.useEffect(() => {
-    // Check local storage or system preference
-    const isDark = localStorage.getItem("theme") === "dark" || 
-      (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    
-    // Apply theme
-    document.documentElement.classList.toggle("dark", isDark);
-    
-    // Store preference
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-  }, []);
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-  const toggleTheme = () => {
-    const isDark = document.documentElement.classList.contains("dark");
-    document.documentElement.classList.toggle("dark", !isDark);
-    localStorage.setItem("theme", !isDark ? "dark" : "light");
-  };
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<Theme>(() => {
+    const savedTheme = localStorage.getItem("theme") as Theme;
+    return savedTheme || "system";
+  });
+
+  useEffect(() => {
+    function updateTheme() {
+      const root = document.documentElement;
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      const activeTheme = theme === "system" ? systemTheme : theme;
+      
+      root.classList.remove("light", "dark");
+      root.classList.add(activeTheme);
+      localStorage.setItem("theme", theme);
+    }
+
+    updateTheme();
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = () => {
+      if (theme === "system") {
+        updateTheme();
+      }
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [theme]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
-    </div>
+    </ThemeContext.Provider>
   );
 }
 
-// Custom hook for theme toggling
 export function useTheme() {
-  const toggleTheme = React.useCallback(() => {
-    const isDark = document.documentElement.classList.contains("dark");
-    document.documentElement.classList.toggle("dark", !isDark);
-    localStorage.setItem("theme", !isDark ? "dark" : "light");
-  }, []);
-
-  return { toggleTheme };
+  const context = useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
 }
