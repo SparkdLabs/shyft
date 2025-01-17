@@ -13,10 +13,7 @@ interface ThemeContextType {
 
 const defaultTheme: Theme = "system";
 
-const ThemeContext = React.createContext<ThemeContextType>({
-  theme: defaultTheme,
-  setTheme: () => null,
-});
+const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const [mounted, setMounted] = React.useState(false);
