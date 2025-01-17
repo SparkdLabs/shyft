@@ -1,6 +1,10 @@
-import * as React from "react";
+import React from "react";
 
 type Theme = "dark" | "light" | "system";
+
+interface ThemeProviderProps {
+  children: React.ReactNode;
+}
 
 interface ThemeContextType {
   theme: Theme;
@@ -9,12 +13,7 @@ interface ThemeContextType {
 
 const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
-  // Initialize theme from localStorage or default to system
+export function ThemeProvider({ children }: ThemeProviderProps): JSX.Element {
   const [theme, setTheme] = React.useState<Theme>(() => {
     if (typeof window !== "undefined") {
       const savedTheme = localStorage.getItem("theme") as Theme;
@@ -23,7 +22,6 @@ export function ThemeProvider({
     return "system";
   });
 
-  // Update the theme class on the document element
   React.useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
@@ -40,7 +38,6 @@ export function ThemeProvider({
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Listen for system theme changes
   React.useEffect(() => {
     if (theme === "system") {
       const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
