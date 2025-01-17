@@ -12,16 +12,24 @@ interface AppearanceFormValues {
 }
 
 export function AppearanceSettings() {
-  const { theme, setTheme } = useTheme();
+  const { toggleTheme } = useTheme();
   
   const form = useForm<AppearanceFormValues>({
     defaultValues: {
-      theme: theme,
+      theme: document.documentElement.classList.contains("dark") ? "dark" : "light",
     },
   });
 
   function onSubmit(data: AppearanceFormValues) {
-    setTheme(data.theme);
+    const isDark = document.documentElement.classList.contains("dark");
+    const shouldBeDark = data.theme === "dark" || 
+      (data.theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    
+    if (isDark !== shouldBeDark) {
+      toggleTheme();
+    }
+    
+    localStorage.setItem("theme", data.theme);
     toast.success('Theme updated successfully');
   }
 
@@ -44,10 +52,7 @@ export function AppearanceSettings() {
                   <FormLabel>Theme</FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={(value) => {
-                        field.onChange(value);
-                        setTheme(value as "light" | "dark" | "system");
-                      }}
+                      onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="grid grid-cols-3 gap-4"
                     >
