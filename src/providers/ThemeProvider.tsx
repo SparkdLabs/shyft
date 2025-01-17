@@ -9,20 +9,27 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem("theme") as Theme;
-    return savedTheme || "system";
+    const storedTheme = localStorage.getItem("theme") as Theme;
+    return storedTheme || "system";
   });
 
   useEffect(() => {
     function updateTheme() {
-      const root = document.documentElement;
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-      const activeTheme = theme === "system" ? systemTheme : theme;
+      const root = window.document.documentElement;
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+      
+      const resolvedTheme = theme === "system" ? systemTheme : theme;
       
       root.classList.remove("light", "dark");
-      root.classList.add(activeTheme);
+      root.classList.add(resolvedTheme);
       localStorage.setItem("theme", theme);
     }
 
@@ -39,8 +46,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, [theme]);
 
+  const value = {
+    theme,
+    setTheme,
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
