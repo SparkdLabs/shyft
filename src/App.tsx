@@ -70,8 +70,8 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <ThemeProvider>
           <TooltipProvider>
             <Toaster />
             <Sonner />
@@ -120,8 +120,8 @@ const App = () => {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </TooltipProvider>
-        </BrowserRouter>
-      </ThemeProvider>
+        </ThemeProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 };
