@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 
 type Theme = "dark" | "light" | "system";
 
@@ -11,13 +11,15 @@ interface ThemeContextType {
   setTheme: (theme: Theme) => void;
 }
 
-const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = React.createContext<ThemeContextType>({
+  theme: "system",
+  setTheme: () => null,
+});
 
-export function ThemeProvider({ children }: ThemeProviderProps): JSX.Element {
+export function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme, setTheme] = React.useState<Theme>(() => {
     if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("theme") as Theme;
-      return savedTheme || "system";
+      return (localStorage.getItem("theme") as Theme) || "system";
     }
     return "system";
   });
@@ -68,9 +70,9 @@ export function ThemeProvider({ children }: ThemeProviderProps): JSX.Element {
   );
 }
 
-export function useTheme(): ThemeContextType {
+export function useTheme() {
   const context = React.useContext(ThemeContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
