@@ -48,7 +48,7 @@
 }
 
 .read-the-docs {
-  @apply text-gray-600 dark:text-gray-300;
+  @apply text-gray-900 dark:text-gray-300;
 }
 
 /* Button styles */
