@@ -14,7 +14,6 @@ import { MarketingSite } from "./components/marketing/MarketingSite";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ThemeProvider } from "./providers/ThemeProvider";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { toast } from "sonner";
 
 const queryClient = new QueryClient({
@@ -70,62 +69,60 @@ const App = () => {
   }
 
   return (
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
-          <SidebarProvider defaultOpen={true}>
-            <TooltipProvider>
-              <Routes>
-                <Route path="/" element={<MarketingSite />} />
-                <Route
-                  path="/login"
-                  element={isAuthenticated ? <Navigate to="/dashboard" /> : <Auth />}
-                />
-                <Route
-                  path="/onboarding"
-                  element={
-                    isAuthenticated ? <OnboardingFlow /> : <Navigate to="/login" />
-                  }
-                />
-                <Route
-                  path="/dashboard"
-                  element={
-                    isAuthenticated ? <Dashboard /> : <Navigate to="/login" />
-                  }
-                />
-                <Route
-                  path="/habits"
-                  element={
-                    isAuthenticated ? <HabitsPage /> : <Navigate to="/login" />
-                  }
-                />
-                <Route
-                  path="/focus"
-                  element={
-                    isAuthenticated ? <FocusTimerPage /> : <Navigate to="/login" />
-                  }
-                />
-                <Route
-                  path="/achievements"
-                  element={
-                    isAuthenticated ? <AchievementsPage /> : <Navigate to="/login" />
-                  }
-                />
-                <Route
-                  path="/settings"
-                  element={
-                    isAuthenticated ? <SettingsPage /> : <Navigate to="/login" />
-                  }
-                />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-              <Toaster />
-              <Sonner />
-            </TooltipProvider>
-          </SidebarProvider>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<MarketingSite />} />
+              <Route
+                path="/login"
+                element={isAuthenticated ? <Navigate to="/dashboard" /> : <Auth />}
+              />
+              <Route
+                path="/onboarding"
+                element={
+                  isAuthenticated ? <OnboardingFlow /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  isAuthenticated ? <Dashboard /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/habits"
+                element={
+                  isAuthenticated ? <HabitsPage /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/focus"
+                element={
+                  isAuthenticated ? <FocusTimerPage /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/achievements"
+                element={
+                  isAuthenticated ? <AchievementsPage /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  isAuthenticated ? <SettingsPage /> : <Navigate to="/login" />
+                }
+              />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };
 

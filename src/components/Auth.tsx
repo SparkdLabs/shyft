@@ -15,6 +15,7 @@ export const Auth = () => {
       async (event, session) => {
         if (event === "SIGNED_IN" && session) {
           try {
+            // Check if user has preferences
             const { data: preferences, error } = await supabase
               .from('user_preferences')
               .select('onboarding_completed')
@@ -26,13 +27,16 @@ export const Auth = () => {
               throw error;
             }
 
+            // If no preferences exist, create them
             if (!preferences) {
               const { error: insertError } = await supabase
                 .from('user_preferences')
-                .insert([{ 
-                  id: session.user.id,
-                  onboarding_completed: false
-                }]);
+                .insert([
+                  { 
+                    id: session.user.id,
+                    onboarding_completed: false
+                  }
+                ]);
 
               if (insertError) {
                 console.error('Error creating preferences:', insertError);
@@ -60,28 +64,39 @@ export const Auth = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
+  const getErrorMessage = (error: AuthError) => {
+    switch (error.message) {
+      case "Invalid login credentials":
+        return "Invalid email or password. Please check your credentials and try again.";
+      case "Email not confirmed":
+        return "Please verify your email address before signing in.";
+      default:
+        return error.message;
+    }
+  };
+
   return (
     <div className="flex min-h-screen">
       {/* Left side - Image */}
-      <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-radial from-primary-100 via-white to-white">
+      <div className="hidden lg:flex lg:w-1/2 relative bg-primary-50">
         <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
           <img 
             src="/lovable-uploads/ef538683-98ce-45d3-9690-cb27cdf529a9.png" 
             alt="Shyft Logo" 
-            className="w-48 mb-8 animate-fadeIn"
+            className="w-48 mb-8"
           />
-          <div className="relative w-full max-w-2xl animate-slideUp">
+          <div className="relative w-full max-w-2xl">
             <img
               src="/lovable-uploads/987b0f35-0fd8-408b-86be-57f31d51c2af.png"
               alt="Team Collaboration"
-              className="w-full rounded-lg shadow-custom-md"
+              className="w-full rounded-lg shadow-custom-lg"
             />
             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-primary-100/90 to-transparent rounded-b-lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                Transform Your Habits, Transform Your Life
+                Master Your Workday with Shyft
               </h2>
               <p className="text-gray-700">
-                Join thousands of professionals who are already achieving their goals with our intelligent habit-building platform
+                Transform your productivity and achieve your career goals with our intelligent habit-building platform
               </p>
             </div>
           </div>
@@ -90,12 +105,10 @@ export const Auth = () => {
 
       {/* Right side - Login Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
-        <div className="w-full max-w-md space-y-8 animate-fadeIn">
+        <div className="w-full max-w-md space-y-8">
           <div className="text-center space-y-2">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-primary-900 bg-clip-text text-transparent">
-              Welcome to Shyft
-            </h1>
-            <p className="text-gray-600">Sign in to continue your journey</p>
+            <h1 className="text-3xl font-bold text-gray-900">Welcome back</h1>
+            <p className="text-gray-600">Log in to continue to Shyft</p>
           </div>
 
           {errorMessage && (
@@ -129,9 +142,9 @@ export const Auth = () => {
                       inputBorderWidth: '1px',
                     },
                     radii: {
-                      borderRadiusButton: '8px',
-                      buttonBorderRadius: '8px',
-                      inputBorderRadius: '8px',
+                      borderRadiusButton: '6px',
+                      buttonBorderRadius: '6px',
+                      inputBorderRadius: '6px',
                     },
                     fonts: {
                       bodyFontFamily: `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`,
@@ -144,7 +157,6 @@ export const Auth = () => {
                   button: 'w-full font-medium shadow-sm hover:translate-y-[-1px] transition-all duration-200',
                   input: 'w-full border-gray-300 focus:border-primary focus:ring-primary text-base',
                   label: 'text-sm font-medium text-gray-700',
-                  anchor: 'text-primary-600 hover:text-primary-700 font-medium',
                 },
               }}
               providers={[]}

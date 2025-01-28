@@ -25,14 +25,10 @@ const benefits = [
 
 export const BenefitsSection = () => {
   return (
-    <section className="py-24 px-4 bg-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-radial from-primary-50 via-white to-white" />
-      
-      <div className="max-w-7xl mx-auto relative z-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 bg-gradient-to-r from-primary-600 to-primary-900 bg-clip-text text-transparent">
-          Transform Your Life with Shyft
-        </h2>
-        <p className="text-lg text-muted-foreground text-center mb-16 max-w-2xl mx-auto">
+    <section className="py-16 px-4 bg-gradient-to-b from-white to-primary/5">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-4">Transform Your Life with Shyft</h2>
+        <p className="text-lg text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
           Experience the power of habit formation and productivity enhancement
         </p>
 
@@ -40,13 +36,10 @@ export const BenefitsSection = () => {
           {benefits.map((benefit, index) => (
             <div
               key={index}
-              className="p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group animate-slideUp"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
             >
-              <div className="mb-6 p-3 bg-primary-50 rounded-xl w-fit group-hover:scale-110 transition-transform duration-300">
-                <benefit.icon className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">{benefit.title}</h3>
+              <benefit.icon className="h-12 w-12 text-primary mb-4" />
+              <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
               <p className="text-muted-foreground">{benefit.description}</p>
             </div>
           ))}

@@ -1,48 +1,104 @@
-import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useTheme } from "@/providers/ThemeProvider";
 import { Monitor, Moon, Sun } from "lucide-react";
 
-export const AppearanceSettings = () => {
+interface AppearanceFormValues {
+  theme: "light" | "dark" | "system";
+}
+
+export function AppearanceSettings() {
   const { theme, setTheme } = useTheme();
+  
+  const form = useForm<AppearanceFormValues>({
+    defaultValues: {
+      theme: theme,
+    },
+  });
+
+  function onSubmit(data: AppearanceFormValues) {
+    setTheme(data.theme);
+    toast.success('Theme updated successfully');
+  }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-medium">Appearance</h3>
-        <p className="text-sm text-muted-foreground">
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle>Appearance</CardTitle>
+        <CardDescription>
           Customize how Shyft looks on your device
-        </p>
-      </div>
-
-      <div className="space-y-4">
-        <RadioGroup
-          value={theme}
-          onValueChange={(value) => setTheme(value as "light" | "dark" | "system")}
-        >
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="light" id="light" />
-            <Label htmlFor="light" className="flex items-center gap-2">
-              <Sun className="h-4 w-4" />
-              Light
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="dark" id="dark" />
-            <Label htmlFor="dark" className="flex items-center gap-2">
-              <Moon className="h-4 w-4" />
-              Dark
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="system" id="system" />
-            <Label htmlFor="system" className="flex items-center gap-2">
-              <Monitor className="h-4 w-4" />
-              System
-            </Label>
-          </div>
-        </RadioGroup>
-      </div>
-    </div>
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="theme"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Theme</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        setTheme(value as "light" | "dark" | "system");
+                      }}
+                      defaultValue={field.value}
+                      className="grid grid-cols-3 gap-4"
+                    >
+                      <FormItem>
+                        <FormControl>
+                          <RadioGroupItem
+                            value="light"
+                            className="peer sr-only"
+                          />
+                        </FormControl>
+                        <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+                          <Sun className="mb-2 h-6 w-6" />
+                          Light
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem>
+                        <FormControl>
+                          <RadioGroupItem
+                            value="dark"
+                            className="peer sr-only"
+                          />
+                        </FormControl>
+                        <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+                          <Moon className="mb-2 h-6 w-6" />
+                          Dark
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem>
+                        <FormControl>
+                          <RadioGroupItem
+                            value="system"
+                            className="peer sr-only"
+                          />
+                        </FormControl>
+                        <FormLabel className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+                          <Monitor className="mb-2 h-6 w-6" />
+                          System
+                        </FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormDescription>
+                    Select a theme for your application
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Save preferences</Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
-};
+}
