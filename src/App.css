@@ -48,7 +48,7 @@
 }
 
 .read-the-docs {
-  color: #6B7177;
+  @apply text-gray-600 dark:text-gray-300;
 }
 
 /* Button styles */
@@ -67,6 +67,7 @@ input, select, textarea {
   border-radius: 6px;
   padding: 0.5rem 1rem;
   transition: border-color 0.2s ease;
+  @apply bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
 }
 
 input:focus, select:focus, textarea:focus {

@@ -55,10 +55,9 @@
 
   body {
     min-height: -webkit-fill-available;
-    @apply overscroll-none;
+    @apply overscroll-none text-gray-900 dark:text-gray-100;
   }
 
-  /* Safe area insets for modern mobile browsers */
   .safe-area-inset-bottom {
     padding-bottom: env(safe-area-inset-bottom, 1rem);
   }
@@ -71,12 +70,6 @@
   /* Improve touch targets on mobile */
   button, a {
     @apply touch-manipulation;
-  }
-
-  /* Smooth scrolling */
-  .smooth-scroll {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -136,13 +129,13 @@
 }
 
 .nav-link {
-  @apply text-gray-600 hover:text-primary transition-colors duration-200;
+  @apply text-gray-600 hover:text-primary transition-colors duration-200 dark:text-gray-300 dark:hover:text-primary;
 }
 
 .section-title {
-  @apply text-3xl md:text-4xl font-bold text-gray-900 mb-4;
+  @apply text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4;
 }
 
 .section-description {
-  @apply text-lg text-gray-600 mb-8 max-w-2xl mx-auto;
+  @apply text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto;
 }
