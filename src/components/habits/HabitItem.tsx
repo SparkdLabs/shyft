@@ -139,15 +139,6 @@ export const HabitItem = ({
               Add Step
             </Button>
             <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowDeleteDialog(true)}
-              className="hidden md:flex text-destructive hover:text-destructive"
-            >
-              <Trash2 className="h-4 w-4 mr-1" />
-              Delete
-            </Button>
-            <Button
               variant={completions.some(c => c.habit_id === habit.id) ? "default" : "outline"}
               onClick={() => onToggleComplete(habit.id)}
               className={cn(
