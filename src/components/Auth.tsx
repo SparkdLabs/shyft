@@ -1,10 +1,12 @@
+
 import { Auth as SupabaseAuth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import type { AuthError } from "@supabase/supabase-js";
+import { ArrowLeft } from "lucide-react";
 
 export const Auth = () => {
   const navigate = useNavigate();
@@ -78,7 +80,7 @@ export const Auth = () => {
   return (
     <div className="flex min-h-screen">
       {/* Left side - Image */}
-      <div className="hidden lg:flex lg:w-1/2 relative bg-primary-50">
+      <div className="hidden lg:flex lg:w-1/2 relative bg-white">
         <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
           <img 
             src="/lovable-uploads/ef538683-98ce-45d3-9690-cb27cdf529a9.png" 
@@ -89,9 +91,9 @@ export const Auth = () => {
             <img
               src="/lovable-uploads/987b0f35-0fd8-408b-86be-57f31d51c2af.png"
               alt="Team Collaboration"
-              className="w-full rounded-lg shadow-custom-lg"
+              className="w-full rounded-lg shadow-lg"
             />
-            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-primary-100/90 to-transparent rounded-b-lg">
+            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white/90 to-transparent rounded-b-lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
                 Master Your Workday with Shyft
               </h2>
@@ -104,7 +106,11 @@ export const Auth = () => {
       </div>
 
       {/* Right side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white relative">
+        <Link to="/" className="absolute top-8 left-8 flex items-center text-gray-600 hover:text-gray-900 transition-colors">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Home
+        </Link>
         <div className="w-full max-w-md space-y-8">
           <div className="text-center space-y-2">
             <h1 className="text-3xl font-bold text-gray-900">Welcome back</h1>
@@ -125,8 +131,8 @@ export const Auth = () => {
                 variables: {
                   default: {
                     colors: {
-                      brand: '#9b87f5',
-                      brandAccent: '#7c3aed',
+                      brand: '#1A1F2C',
+                      brandAccent: '#1A1F2C',
                       brandButtonText: 'white',
                       defaultButtonBackground: 'white',
                       defaultButtonBackgroundHover: '#f9fafb',

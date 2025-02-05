@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +12,7 @@ import { AchievementsPage } from "./components/achievements/AchievementsPage";
 import { SettingsPage } from "./components/settings/SettingsPage";
 import { Auth } from "./components/Auth";
 import { MarketingSite } from "./components/marketing/MarketingSite";
+import { AboutPage } from "./components/marketing/AboutPage";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ThemeProvider } from "./providers/ThemeProvider";
@@ -77,6 +79,7 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<MarketingSite />} />
+              <Route path="/about" element={<AboutPage />} />
               <Route
                 path="/login"
                 element={isAuthenticated ? <Navigate to="/dashboard" /> : <Auth />}
