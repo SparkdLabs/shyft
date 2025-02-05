@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
@@ -35,15 +36,15 @@ export const MarketingSite = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4">
+      <section className="pt-32 pb-16 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight max-w-4xl">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight max-w-4xl text-gray-900">
             Simplify your{" "}
             <span className="inline-block bg-secondary px-2 rounded-lg">habits</span>
             {" "}and{" "}
             <span className="inline-block bg-accent px-2 rounded-lg">wellbeing.</span>
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl">
+          <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl">
             Build lasting habits, boost productivity, and achieve your goals with a personalized approach to self-improvement.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
