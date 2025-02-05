@@ -7,18 +7,18 @@ export const MarketingSite = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-sm z-50 border-b">
+      <nav className="fixed top-0 w-full bg-white backdrop-blur-sm z-50 border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-8">
-              <span className="text-xl font-bold">Shyft</span>
+              <span className="text-xl font-bold text-gray-900">Shyft</span>
               <div className="hidden md:flex items-center gap-6">
-                <Link to="#" className="nav-link">About</Link>
-                <Link to="#" className="nav-link">Features</Link>
+                <Link to="#" className="text-gray-600 hover:text-gray-900">About</Link>
+                <Link to="#" className="text-gray-600 hover:text-gray-900">Features</Link>
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm" className="text-sm" asChild>
+              <Button variant="ghost" size="sm" className="text-sm text-gray-600" asChild>
                 <Link to="/login">Log In</Link>
               </Button>
               <Button 
@@ -73,21 +73,21 @@ export const MarketingSite = () => {
       <section className="py-24 bg-muted">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-background p-8 rounded-2xl">
-              <h3 className="text-xl font-semibold mb-4">Habit Tracking</h3>
-              <p className="text-muted-foreground">
+            <div className="bg-white p-8 rounded-2xl">
+              <h3 className="text-xl font-semibold mb-4 text-gray-900">Habit Tracking</h3>
+              <p className="text-gray-600">
                 Build and maintain positive habits with our intuitive tracking system.
               </p>
             </div>
-            <div className="bg-background p-8 rounded-2xl">
-              <h3 className="text-xl font-semibold mb-4">Focus Timer</h3>
-              <p className="text-muted-foreground">
+            <div className="bg-white p-8 rounded-2xl">
+              <h3 className="text-xl font-semibold mb-4 text-gray-900">Focus Timer</h3>
+              <p className="text-gray-600">
                 Stay focused and productive with our customizable timer.
               </p>
             </div>
-            <div className="bg-background p-8 rounded-2xl">
-              <h3 className="text-xl font-semibold mb-4">Progress Insights</h3>
-              <p className="text-muted-foreground">
+            <div className="bg-white p-8 rounded-2xl">
+              <h3 className="text-xl font-semibold mb-4 text-gray-900">Progress Insights</h3>
+              <p className="text-gray-600">
                 Track your progress with detailed analytics and insights.
               </p>
             </div>
