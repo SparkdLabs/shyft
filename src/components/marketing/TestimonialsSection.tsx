@@ -1,18 +1,21 @@
+
+import { Quote } from "lucide-react";
+
 const testimonials = [
   {
-    quote: "Shyft has completely transformed how I approach my daily tasks and goals. The habit tracking feature is a game-changer.",
+    quote: "Since using Shyft, I've been able to consistently maintain my morning routine. The app's intuitive design and helpful reminders keep me on track.",
     author: "Sarah Chen",
-    role: "Product Manager"
+    role: "Marketing Director"
   },
   {
-    quote: "The focus timer has helped me maintain deep work sessions and significantly improved my productivity.",
+    quote: "The habit stacking feature has revolutionized how I approach my daily tasks. I've seen remarkable improvements in my productivity.",
     author: "Michael Rodriguez",
     role: "Software Engineer"
   },
   {
-    quote: "I love how the app helps me build better habits while tracking my progress. It's become an essential part of my daily routine.",
+    quote: "I love how Shyft helps me break down my goals into manageable daily habits. It's made a huge difference in my personal development.",
     author: "Emily Thompson",
-    role: "Marketing Director"
+    role: "Fitness Coach"
   }
 ];
 
@@ -25,8 +28,9 @@ export const TestimonialsSection = () => {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="p-8 bg-muted rounded-xl hover:shadow-md transition-shadow duration-200"
+              className="p-8 bg-muted rounded-2xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
             >
+              <Quote className="h-8 w-8 text-primary mb-4 opacity-50" />
               <p className="text-lg mb-6 text-gray-700">{testimonial.quote}</p>
               <div className="flex items-center gap-4">
                 <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
@@ -35,8 +39,8 @@ export const TestimonialsSection = () => {
                   </span>
                 </div>
                 <div>
-                  <p className="font-semibold">{testimonial.author}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  <p className="font-semibold text-gray-900">{testimonial.author}</p>
+                  <p className="text-sm text-gray-600">{testimonial.role}</p>
                 </div>
               </div>
             </div>
