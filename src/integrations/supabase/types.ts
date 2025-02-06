@@ -36,66 +36,6 @@ export type Database = {
         }
         Relationships: []
       }
-      calendar_connections: {
-        Row: {
-          access_token: string
-          calendar_id: string | null
-          created_at: string
-          id: string
-          provider: string
-          refresh_token: string | null
-          token_expires_at: string | null
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          access_token: string
-          calendar_id?: string | null
-          created_at?: string
-          id?: string
-          provider: string
-          refresh_token?: string | null
-          token_expires_at?: string | null
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          access_token?: string
-          calendar_id?: string | null
-          created_at?: string
-          id?: string
-          provider?: string
-          refresh_token?: string | null
-          token_expires_at?: string | null
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      focus_sessions: {
-        Row: {
-          completed_at: string
-          created_at: string
-          duration_minutes: number
-          id: string
-          user_id: string
-        }
-        Insert: {
-          completed_at?: string
-          created_at?: string
-          duration_minutes: number
-          id?: string
-          user_id: string
-        }
-        Update: {
-          completed_at?: string
-          created_at?: string
-          duration_minutes?: number
-          id?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       habit_completions: {
         Row: {
           completed_at: string
@@ -134,11 +74,8 @@ export type Database = {
           goal_period: string | null
           goal_target: number | null
           id: string
-          is_template: boolean | null
           name: string
           parent_habit_id: string | null
-          suggested_frequency: string | null
-          template_category: string | null
           updated_at: string
           user_id: string | null
         }
@@ -150,11 +87,8 @@ export type Database = {
           goal_period?: string | null
           goal_target?: number | null
           id?: string
-          is_template?: boolean | null
           name: string
           parent_habit_id?: string | null
-          suggested_frequency?: string | null
-          template_category?: string | null
           updated_at?: string
           user_id?: string | null
         }
@@ -166,11 +100,8 @@ export type Database = {
           goal_period?: string | null
           goal_target?: number | null
           id?: string
-          is_template?: boolean | null
           name?: string
           parent_habit_id?: string | null
-          suggested_frequency?: string | null
-          template_category?: string | null
           updated_at?: string
           user_id?: string | null
         }
@@ -222,7 +153,6 @@ export type Database = {
       }
       profiles: {
         Row: {
-          avatar_url: string | null
           created_at: string
           full_name: string | null
           id: string
@@ -230,7 +160,6 @@ export type Database = {
           username: string | null
         }
         Insert: {
-          avatar_url?: string | null
           created_at?: string
           full_name?: string | null
           id: string
@@ -238,36 +167,11 @@ export type Database = {
           username?: string | null
         }
         Update: {
-          avatar_url?: string | null
           created_at?: string
           full_name?: string | null
           id?: string
           updated_at?: string
           username?: string | null
-        }
-        Relationships: []
-      }
-      pwa_installations: {
-        Row: {
-          device_type: string | null
-          id: string
-          installed_at: string | null
-          last_active: string | null
-          user_id: string
-        }
-        Insert: {
-          device_type?: string | null
-          id?: string
-          installed_at?: string | null
-          last_active?: string | null
-          user_id: string
-        }
-        Update: {
-          device_type?: string | null
-          id?: string
-          installed_at?: string | null
-          last_active?: string | null
-          user_id?: string
         }
         Relationships: []
       }
@@ -299,69 +203,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      user_feedback: {
-        Row: {
-          created_at: string
-          feedback: string
-          id: string
-          status: string | null
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          feedback: string
-          id?: string
-          status?: string | null
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          feedback?: string
-          id?: string
-          status?: string | null
-          user_id?: string
-        }
-        Relationships: []
-      }
-      user_preferences: {
-        Row: {
-          challenges: string[] | null
-          created_at: string
-          focus_areas: string[] | null
-          habit_goals: string[] | null
-          habit_motivations: string[] | null
-          id: string
-          onboarding_completed: boolean | null
-          preferred_habit_categories: string[] | null
-          primary_goals: string[] | null
-          updated_at: string
-        }
-        Insert: {
-          challenges?: string[] | null
-          created_at?: string
-          focus_areas?: string[] | null
-          habit_goals?: string[] | null
-          habit_motivations?: string[] | null
-          id: string
-          onboarding_completed?: boolean | null
-          preferred_habit_categories?: string[] | null
-          primary_goals?: string[] | null
-          updated_at?: string
-        }
-        Update: {
-          challenges?: string[] | null
-          created_at?: string
-          focus_areas?: string[] | null
-          habit_goals?: string[] | null
-          habit_motivations?: string[] | null
-          id?: string
-          onboarding_completed?: boolean | null
-          preferred_habit_categories?: string[] | null
-          primary_goals?: string[] | null
-          updated_at?: string
-        }
-        Relationships: []
       }
     }
     Views: {

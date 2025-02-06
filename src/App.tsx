@@ -3,11 +3,9 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { OnboardingFlow } from "./components/OnboardingFlow";
 import { AppLayout } from "./components/layout/AppLayout";
 import { Auth } from "./components/Auth";
 import { MarketingSite } from "./components/marketing/MarketingSite";
-import { AboutPage } from "./components/marketing/AboutPage";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ThemeProvider } from "./providers/ThemeProvider";
@@ -59,7 +57,7 @@ const App = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-white">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
@@ -74,16 +72,9 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<MarketingSite />} />
-              <Route path="/about" element={<AboutPage />} />
               <Route
                 path="/login"
                 element={isAuthenticated ? <Navigate to="/dashboard" /> : <Auth />}
-              />
-              <Route
-                path="/onboarding"
-                element={
-                  isAuthenticated ? <OnboardingFlow /> : <Navigate to="/login" />
-                }
               />
               <Route
                 path="/dashboard/*"
