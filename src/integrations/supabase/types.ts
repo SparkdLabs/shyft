@@ -36,6 +36,30 @@ export type Database = {
         }
         Relationships: []
       }
+      focus_sessions: {
+        Row: {
+          completed_at: string
+          created_at: string
+          duration_minutes: number
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          completed_at?: string
+          created_at?: string
+          duration_minutes: number
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          completed_at?: string
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       habit_completions: {
         Row: {
           completed_at: string
@@ -203,6 +227,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_preferences: {
+        Row: {
+          created_at: string
+          id: string
+          theme: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          theme?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          theme?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
     }
     Views: {

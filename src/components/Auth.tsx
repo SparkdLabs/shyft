@@ -1,11 +1,9 @@
-
 import { Auth as SupabaseAuth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import type { AuthError } from "@supabase/supabase-js";
 import { ArrowLeft } from "lucide-react";
 
 export const Auth = () => {
@@ -17,40 +15,24 @@ export const Auth = () => {
       async (event, session) => {
         if (event === "SIGNED_IN" && session) {
           try {
-            // Check if user has preferences
-            const { data: preferences, error } = await supabase
+            // Create user preferences if they don't exist
+            const { error: preferencesError } = await supabase
               .from('user_preferences')
-              .select('onboarding_completed')
-              .eq('id', session.user.id)
-              .maybeSingle();
+              .insert([
+                { 
+                  id: session.user.id,
+                  theme: 'light'
+                }
+              ])
+              .select()
+              .single();
 
-            if (error) {
-              console.error('Error fetching preferences:', error);
-              throw error;
+            if (preferencesError && preferencesError.code !== '23505') { // Ignore duplicate key errors
+              console.error('Error creating preferences:', preferencesError);
+              throw preferencesError;
             }
 
-            // If no preferences exist, create them
-            if (!preferences) {
-              const { error: insertError } = await supabase
-                .from('user_preferences')
-                .insert([
-                  { 
-                    id: session.user.id,
-                    onboarding_completed: false
-                  }
-                ]);
-
-              if (insertError) {
-                console.error('Error creating preferences:', insertError);
-                throw insertError;
-              }
-
-              navigate("/onboarding");
-            } else if (!preferences.onboarding_completed) {
-              navigate("/onboarding");
-            } else {
-              navigate("/dashboard");
-            }
+            navigate("/dashboard");
           } catch (error) {
             console.error('Error in auth flow:', error);
             setErrorMessage("An error occurred during sign in. Please try again.");
@@ -65,17 +47,6 @@ export const Auth = () => {
 
     return () => subscription.unsubscribe();
   }, [navigate]);
-
-  const getErrorMessage = (error: AuthError) => {
-    switch (error.message) {
-      case "Invalid login credentials":
-        return "Invalid email or password. Please check your credentials and try again.";
-      case "Email not confirmed":
-        return "Please verify your email address before signing in.";
-      default:
-        return error.message;
-    }
-  };
 
   return (
     <div className="flex min-h-screen">
