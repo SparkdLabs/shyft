@@ -1,15 +1,10 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { OnboardingFlow } from "./components/OnboardingFlow";
-import { Dashboard } from "./components/Dashboard";
-import { HabitsPage } from "./components/habits/HabitsPage";
-import { FocusTimerPage } from "./components/focus/FocusTimerPage";
-import { AchievementsPage } from "./components/achievements/AchievementsPage";
-import { SettingsPage } from "./components/settings/SettingsPage";
+import { AppLayout } from "./components/layout/AppLayout";
 import { Auth } from "./components/Auth";
 import { MarketingSite } from "./components/marketing/MarketingSite";
 import { AboutPage } from "./components/marketing/AboutPage";
@@ -91,33 +86,9 @@ const App = () => {
                 }
               />
               <Route
-                path="/dashboard"
+                path="/dashboard/*"
                 element={
-                  isAuthenticated ? <Dashboard /> : <Navigate to="/login" />
-                }
-              />
-              <Route
-                path="/habits"
-                element={
-                  isAuthenticated ? <HabitsPage /> : <Navigate to="/login" />
-                }
-              />
-              <Route
-                path="/focus"
-                element={
-                  isAuthenticated ? <FocusTimerPage /> : <Navigate to="/login" />
-                }
-              />
-              <Route
-                path="/achievements"
-                element={
-                  isAuthenticated ? <AchievementsPage /> : <Navigate to="/login" />
-                }
-              />
-              <Route
-                path="/settings"
-                element={
-                  isAuthenticated ? <SettingsPage /> : <Navigate to="/login" />
+                  isAuthenticated ? <AppLayout /> : <Navigate to="/login" />
                 }
               />
               <Route path="*" element={<Navigate to="/" replace />} />
