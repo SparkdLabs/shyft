@@ -25,7 +25,7 @@ export const Dashboard = () => {
           onStartTimer={() => setShowTimer(true)}
         />
 
-        <Card className="p-6 shadow-sm border border-[#edeae9] hover:shadow-md transition-shadow duration-200">
+        <Card className="p-6 bg-white shadow-sm border border-[#edeae9] hover:shadow-md transition-shadow duration-200">
           <ProgressCard />
         </Card>
       </div>

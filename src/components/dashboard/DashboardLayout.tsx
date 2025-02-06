@@ -13,13 +13,13 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <SidebarProvider>
         <div className="flex h-full w-full">
           <AppSidebar open={sidebarOpen} onOpenChange={setSidebarOpen} />
           
           <div className="flex-1">
-            <div className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
               <div className="container flex h-16 items-center px-4">
                 <div className="w-full flex justify-between items-center">
                   <Button
@@ -34,7 +34,9 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 </div>
               </div>
             </div>
-            <main className="container">{children}</main>
+            <main className="container">
+              <div className="text-black">{children}</div>
+            </main>
           </div>
         </div>
       </SidebarProvider>
