@@ -26,7 +26,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                     variant="ghost"
                     size="icon"
                     onClick={() => setSidebarOpen(true)}
-                    className="md:hidden bg-primary rounded-full hover:bg-primary/90 mr-6"
+                    className="md:hidden bg-[#1A1F2C] rounded-full hover:bg-[#1A1F2C]/90 mr-6"
                   >
                     <Menu className="h-5 w-5 text-white" />
                   </Button>
@@ -35,7 +35,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               </div>
             </div>
             <main className="container">
-              <div className="text-black">{children}</div>
+              {children}
             </main>
           </div>
         </div>
